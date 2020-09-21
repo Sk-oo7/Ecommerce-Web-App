@@ -1,11 +1,11 @@
-.websitename {
-  font-family: "Comic sans ms";
-}
-
 .link {
-  color: rgb(209, 68, 68);
+  color: inherit;
 }
 .link:hover {
   text-decoration: none;
-  color: rgb(160, 52, 52);
+  color: inherit;
+}
+.badge {
+  position: absolute;
+  margin: -10px;
 }

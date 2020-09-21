@@ -9,6 +9,9 @@ import ShoppingCartSharpIcon from "@material-ui/icons/ShoppingCartSharp";
 import LoyaltySharpIcon from "@material-ui/icons/LoyaltySharp";
 import Link from "react-router-dom/Link";
 import { useStateValue } from "./StateProvider";
+import Badge from "react-bootstrap/Badge";
+import InputGroup from "react-bootstrap/InputGroup";
+import Container from "react-bootstrap/Container";
 
 export default function Header() {
   const [{ Cart, Wishlist }, dispach] = useStateValue();
@@ -20,30 +23,41 @@ export default function Header() {
           <img src={Logo} alt="website logo" height="50"></img>
         </Link>
       </Navbar.Brand>
-      <Nav className="ml-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#features">Features</Nav.Link>
-        <Nav.Link href="#pricing">Pricing</Nav.Link>
-      </Nav>{" "}
+
       <Form inline className="ml-auto">
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button variant="outline-info">Search</Button>
+        <InputGroup class="mb-3">
+          <FormControl type="text" placeholder="Search" className="col-xs-4" />
+          <InputGroup.Append>
+            <Button variant="secondary">Search</Button>
+          </InputGroup.Append>
+        </InputGroup>
       </Form>
+
       <Nav className="ml-sm-4">
         <Nav.Link href="#signin">Sign In</Nav.Link>
         <Nav.Link href="#MyOrders">My Orders</Nav.Link>
         <Nav.Link href="#Wishlist">
-          <Link to="/Cart" className="link">
+          <Link to="/" className="link">
             <div className="wishListIcon">
               <LoyaltySharpIcon />
-              {Wishlist?.length}
+
+              {Wishlist?.length > 0 && (
+                <Badge variant="danger" class="badge">
+                  {Wishlist?.length}
+                </Badge>
+              )}
             </div>
           </Link>
         </Nav.Link>
-        <Nav.Link href="#cart">
-          <Link to="/Cart">
+        <Nav.Link href="#Cart">
+          <Link to="/Cart" className="link">
             <ShoppingCartSharpIcon />
-            {Cart?.length}
+
+            {Cart?.length > 0 && (
+              <Badge variant="success" class="badge">
+                {Cart?.length}
+              </Badge>
+            )}
           </Link>
         </Nav.Link>
       </Nav>
