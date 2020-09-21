@@ -1,0 +1,16 @@
+.Cart {
+  display: flex;
+  padding: 20px;
+  background-color: whitesmoke;
+  height: max-content;
+}
+.Cart_Ad_1 {
+  margin-bottom: 10px;
+  width: 1100px;
+  height: 150px;
+}
+.cart_title {
+  margin-right: 10px;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+}

@@ -1,0 +1,30 @@
+.products_row_1 {
+  z-index: 1;
+  display: flex;
+  margin-top: -400px;
+  padding-top: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  position: relative;
+}
+.ProductItem {
+  display: flex;
+  z-index: 1;
+}
+.productItem_img {
+  padding: 20px 20px 20px 20px;
+}
+.products_row_2 {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  position: relative;
+}
+.ProductItem_rating {
+  display: flex;
+}
+.price {
+  color: rgb(190, 73, 73);
+}
