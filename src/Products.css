@@ -28,3 +28,6 @@
 .price {
   color: rgb(190, 73, 73);
 }
+.ActionButtons {
+  display: flex;
+}

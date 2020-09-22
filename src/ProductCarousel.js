@@ -50,7 +50,7 @@ export default function ProductCarousel() {
           <ProductItem
             id={8}
             title="Apple iPhone 11 Pro Max (256GB) - Midnight Green"
-            img={product_carousel_1}
+            pic={product_carousel_1}
             price={121990.99}
             rating={5}
           />
@@ -59,7 +59,7 @@ export default function ProductCarousel() {
           <ProductItem
             id={9}
             title="Apple iPhone 7 (32GB) - Rose Gold"
-            img={product_carousel_2}
+            pic={product_carousel_2}
             price={29799.0}
             rating={4}
           />
@@ -68,7 +68,7 @@ export default function ProductCarousel() {
           <ProductItem
             id={10}
             title="Apple iPhone XR 2018 (64GB) - Yellow"
-            img={product_carousel_3}
+            pic={product_carousel_3}
             price={50499.0}
             rating={4}
           />
@@ -77,7 +77,7 @@ export default function ProductCarousel() {
           <ProductItem
             id={11}
             title="Apple Watch Series 3 (GPS, 42mm) - Space Grey"
-            img={product_carousel_4}
+            pic={product_carousel_4}
             price={23990.0}
             rating={3}
           />
@@ -86,7 +86,7 @@ export default function ProductCarousel() {
           <ProductItem
             id={12}
             title="Apple AirPods Pro (Active Noice Cancellation)"
-            img={product_carousel_5}
+            pic={product_carousel_5}
             price={21290.0}
             rating={5}
           />
@@ -95,7 +95,7 @@ export default function ProductCarousel() {
           <ProductItem
             id={13}
             title="Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage)"
-            img={product_carousel_6}
+            pic={product_carousel_6}
             price={179990.0}
             rating={5}
           />

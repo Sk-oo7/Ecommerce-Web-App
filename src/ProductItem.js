@@ -3,8 +3,9 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./Products.css";
 import { useStateValue } from "./StateProvider";
+import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 
-export default function ProductItem({ id, title, img, price, rating }) {
+export default function ProductItem({ id, title, pic, price, rating }) {
   const [{ Cart }, dispach] = useStateValue();
 
   const addToCart = () => {
@@ -13,6 +14,7 @@ export default function ProductItem({ id, title, img, price, rating }) {
       item: {
         id: id,
         title: title,
+        pic: pic,
         price: price,
         rating: rating,
       },
@@ -24,6 +26,7 @@ export default function ProductItem({ id, title, img, price, rating }) {
       item: {
         id: id,
         title: title,
+        pic: pic,
         price: price,
         rating: rating,
       },
@@ -31,7 +34,7 @@ export default function ProductItem({ id, title, img, price, rating }) {
   };
   return (
     <Card style={{ width: "500px", margin: "20px 20px 20px 20px" }}>
-      <Card.Img className="ProductItem_img" variant="top" src={img} />
+      <Card.Img className="ProductItem_img" variant="top" src={pic} />
       <Card.Body>
         <Card.Title className="ProductItem_title">{title}</Card.Title>
         <Card.Text>
@@ -50,12 +53,21 @@ export default function ProductItem({ id, title, img, price, rating }) {
               ))}
           </div>
         </Card.Text>
-        <Button variant="warning" onClick={addToCart}>
-          Add to Cart
-        </Button>{" "}
-        <Button variant="danger" onClick={addToWishlist}>
-          Add to WishList
-        </Button>
+        <div className="ActionButtons">
+          <Button variant="warning" onClick={addToCart}>
+            Add to Cart
+          </Button>
+          <Button
+            variant="danger"
+            onClick={addToWishlist}
+            style={{ marginLeft: "20px" }}
+          >
+            <small style={{}}>
+              <FavoriteRoundedIcon />
+            </small>{" "}
+            Add to WishList
+          </Button>
+        </div>
       </Card.Body>
     </Card>
   );

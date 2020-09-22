@@ -11,14 +11,13 @@ import Link from "react-router-dom/Link";
 import { useStateValue } from "./StateProvider";
 import Badge from "react-bootstrap/Badge";
 import InputGroup from "react-bootstrap/InputGroup";
-import Container from "react-bootstrap/Container";
 
 export default function Header() {
   const [{ Cart, Wishlist }, dispach] = useStateValue();
 
   return (
     <Navbar bg="dark" variant="dark" sticky="top" className="mr-auto">
-      <Navbar.Brand href="#">
+      <Navbar.Brand>
         <Link to="/">
           <img src={Logo} alt="website logo" height="50"></img>
         </Link>
@@ -34,9 +33,9 @@ export default function Header() {
       </Form>
 
       <Nav className="ml-sm-4">
-        <Nav.Link href="#signin">Sign In</Nav.Link>
-        <Nav.Link href="#MyOrders">My Orders</Nav.Link>
-        <Nav.Link href="#Wishlist">
+        <Nav.Link>Sign In</Nav.Link>
+        <Nav.Link>My Orders</Nav.Link>
+        <Nav.Link>
           <Link to="/" className="link">
             <div className="wishListIcon">
               <LoyaltySharpIcon />
@@ -49,7 +48,7 @@ export default function Header() {
             </div>
           </Link>
         </Nav.Link>
-        <Nav.Link href="#Cart">
+        <Nav.Link>
           <Link to="/Cart" className="link">
             <ShoppingCartSharpIcon />
 

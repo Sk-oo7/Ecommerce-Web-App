@@ -3,34 +3,65 @@ import "./SubTotal.css";
 import CurrencyFormat from "react-currency-format";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
+import { getCartTotal } from "./reducer";
 
 function SubTotal() {
   const [{ Cart }, dispach] = useStateValue();
-  return (
-    <div className="subtotal">
-      <CurrencyFormat
-        renderText={(value) => (
-          <>
-            <p>
-              {" "}
-              Subtotal ({Cart.length} Items):
-              <strong>{/*{` ${value}`}*/}0</strong>
-            </p>
+  if (Cart?.length == 0) {
+    return (
+      <div className="subtotal">
+        <CurrencyFormat
+          renderText={(value) => (
+            <>
+              <p>
+                {" "}
+                Subtotal ({Cart.length} Items):
+                <strong>{value}</strong>
+              </p>
 
-            <small className="subtotal_gift">
-              <input type="checkbox" /> This order contains a gift{" "}
-            </small>
-          </>
-        )}
-        decimalScale={2}
-        value={0}
-        displayType={"text"}
-        thousandSpacing={"2s"}
-        prefix={"₹"}
-      />
-      <Button variant="warning">Proceed to Checkout</Button>
-    </div>
-  );
+              <small className="subtotal_gift">
+                <input type="checkbox" disabled /> This order contains a gift{" "}
+              </small>
+            </>
+          )}
+          decimalScale={2}
+          value={getCartTotal(Cart)}
+          displayType={"text"}
+          thousandSpacing={"2s"}
+          prefix={"₹"}
+        />
+        <Button variant="warning" disabled>
+          Proceed to Checkout
+        </Button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="subtotal">
+        <CurrencyFormat
+          renderText={(value) => (
+            <>
+              <p>
+                {" "}
+                Subtotal ({Cart.length} Items):
+                <strong>{value}</strong>
+              </p>
+
+              <small className="subtotal_gift">
+                <input type="checkbox" /> This order contains a gift{" "}
+              </small>
+            </>
+          )}
+          decimalScale={2}
+          value={getCartTotal(Cart)}
+          displayType={"text"}
+          thousandSpacing={"2s"}
+          prefix={"₹"}
+        />
+        <Button variant="warning">Proceed to Checkout</Button>
+      </div>
+    );
+  }
 }
 
 export default SubTotal;

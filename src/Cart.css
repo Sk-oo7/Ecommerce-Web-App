@@ -14,3 +14,10 @@
   padding: 10px;
   border-bottom: 1px solid lightgray;
 }
+.cartProduct {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
