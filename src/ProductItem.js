@@ -62,7 +62,7 @@ export default function ProductItem({ id, title, pic, price, rating }) {
             onClick={addToWishlist}
             style={{ marginLeft: "20px" }}
           >
-            <small style={{}}>
+            <small>
               <FavoriteRoundedIcon />
             </small>{" "}
             Add to WishList

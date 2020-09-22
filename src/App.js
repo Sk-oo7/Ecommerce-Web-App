@@ -6,6 +6,7 @@ import Products from "./Products.js";
 import ProductCarousel from "./ProductCarousel.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Cart from "./Cart.js";
+import SignIn from "./SignIn.js";
 
 function App() {
   return (
@@ -18,8 +19,11 @@ function App() {
             <Products />
             <ProductCarousel />
           </Route>
-          <Route path="/cart">
+          <Route path="/cart" exact>
             <Cart />
+          </Route>
+          <Route path="/SignIn" exact>
+            <SignIn />
           </Route>
         </Switch>
       </div>

@@ -1,0 +1,17 @@
+.FormDiv {
+  background-color: rgb(221, 215, 215);
+  margin-top: 50px;
+  width: 500px !important;
+  height: 450px !important;
+}
+.formImage {
+  margin-left: 132px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.formHeading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: gray;
+}

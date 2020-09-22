@@ -7,7 +7,7 @@ import { getCartTotal } from "./reducer";
 
 function SubTotal() {
   const [{ Cart }, dispach] = useStateValue();
-  if (Cart?.length == 0) {
+  if (Cart?.length === 0) {
     return (
       <div className="subtotal">
         <CurrencyFormat

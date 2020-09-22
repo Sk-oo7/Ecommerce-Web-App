@@ -33,8 +33,14 @@ export default function Header() {
       </Form>
 
       <Nav className="ml-sm-4">
-        <Nav.Link>Sign In</Nav.Link>
+        <Nav.Link>
+          <Link to="/SignIn" className="link">
+            Sign In
+          </Link>
+        </Nav.Link>
+
         <Nav.Link>My Orders</Nav.Link>
+
         <Nav.Link>
           <Link to="/" className="link">
             <div className="wishListIcon">
