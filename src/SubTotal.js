@@ -4,8 +4,10 @@ import CurrencyFormat from "react-currency-format";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
 import { getCartTotal } from "./reducer";
+import { useHistory } from "react-router-dom";
 
 function SubTotal() {
+  const history = useHistory();
   const [{ Cart }, dispach] = useStateValue();
   if (Cart?.length === 0) {
     return (
@@ -58,7 +60,9 @@ function SubTotal() {
           thousandSpacing={"2s"}
           prefix={"₹"}
         />
-        <Button variant="warning">Proceed to Checkout</Button>
+        <Button variant="warning" onClick={(e) => history.push("/payment")}>
+          Proceed to Checkout
+        </Button>
       </div>
     );
   }
