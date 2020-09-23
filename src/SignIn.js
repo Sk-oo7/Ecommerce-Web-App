@@ -25,14 +25,24 @@ function SignIn() {
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
         history.push("/");
+        window.location.reload(false);
       })
       .catch((error) => alert(error.message));
   };
 
   const register = (e) => {
     e.preventDefault();
+    var user = null;
     auth
       .createUserWithEmailAndPassword(email, password)
+      .then(function () {
+        user = auth.currentUser;
+      })
+      .then(function () {
+        user.updateProfile({
+          displayName: username,
+        });
+      })
       .then((auth) => {
         if (auth) {
           history.push("/");
@@ -80,7 +90,7 @@ function SignIn() {
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </InputGroup>
-              <Form.Label htmlFor="inlineFormInput" srOnly>
+              <Form.Label htmlFor="inlineFormInput2" srOnly>
                 Password
               </Form.Label>
               <Form.Control

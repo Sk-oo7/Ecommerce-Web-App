@@ -1,6 +1,7 @@
 export const initialState = {
   Cart: [],
   Wishlist: [],
+  user: null,
 };
 
 export const getCartTotal = (Cart) =>
@@ -34,6 +35,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         Cart: newCart,
+      };
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.user,
       };
 
     default:

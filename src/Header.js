@@ -11,9 +11,16 @@ import Link from "react-router-dom/Link";
 import { useStateValue } from "./StateProvider";
 import Badge from "react-bootstrap/Badge";
 import InputGroup from "react-bootstrap/InputGroup";
+import { auth } from "./firebase";
 
 export default function Header() {
-  const [{ Cart, Wishlist }, dispach] = useStateValue();
+  const [{ Cart, Wishlist, user }, dispach] = useStateValue();
+
+  const handleAuthentication = () => {
+    if (user) {
+      auth.signOut();
+    }
+  };
 
   return (
     <Navbar bg="dark" variant="dark" sticky="top" className="mr-auto">
@@ -34,8 +41,30 @@ export default function Header() {
 
       <Nav className="ml-sm-4">
         <Nav.Link>
-          <Link to="/SignIn" className="link">
-            Sign In
+          <Link
+            to={!user && "/SignIn"}
+            className="link"
+            onClick={handleAuthentication}
+          >
+            <div
+              class="log_option"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "-5px",
+              }}
+            >
+              {" "}
+              <small
+                style={{
+                  marginBottom: "-5px",
+                  color: "whitesmoke",
+                }}
+              >
+                Hello, {user?.displayName ? `${user?.displayName}` : "Guest"}
+              </small>
+              {user ? "Sign Out" : "Sign In"}
+            </div>
           </Link>
         </Nav.Link>
 

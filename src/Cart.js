@@ -7,13 +7,16 @@ import { useStateValue } from "./StateProvider";
 import EmptyCart from "./EmptyCart.js";
 
 function Cart() {
-  const [{ Cart }, dispach] = useStateValue();
+  const [{ Cart, user }, dispach] = useStateValue();
   return (
     <div className="Cart">
       <div className="Cart_left">
         <img className="Cart_Ad_1" src={ad_1} alt="Ad" />
         <div>
-          <h2 className="cart_title">Your Shopping Cart</h2>
+          <h2 className="cart_title">
+            Hello, {user?.displayName ? `${user?.displayName}` : "Guest"}. Your
+            Shopping Cart
+          </h2>
           <EmptyCart />
           <div className="cartProduct">
             {Cart.map((item) => (
