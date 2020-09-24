@@ -1,0 +1,26 @@
+.order {
+  padding: 40 px;
+  margin: 20 px 0;
+  border: 1px solid lightgray;
+  background-color: whitesmoke;
+  position: relative;
+}
+.order_id {
+  position: absolute;
+  right: 5%;
+  margin-top: -40px;
+}
+.order_total {
+  font-weight: 500;
+  text-align: right;
+  margin-right: 50px;
+  margin-bottom: 20px;
+}
+.cartProduct {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.order > h2,
+.order_time {
+  margin-left: 50px;
+}

@@ -68,10 +68,14 @@ export default function Header() {
           </Link>
         </Nav.Link>
 
-        <Nav.Link>My Orders</Nav.Link>
+        <Nav.Link>
+          <Link to="/Orders" className="link">
+            My Orders
+          </Link>
+        </Nav.Link>
 
         <Nav.Link>
-          <Link to="/" className="link">
+          <Link to="/Wishlist" className="link">
             <div className="wishListIcon">
               <LoyaltySharpIcon />
 

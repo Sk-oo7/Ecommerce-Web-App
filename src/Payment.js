@@ -8,6 +8,7 @@ import CurrencyFormat from "react-currency-format";
 import { getCartTotal } from "./reducer";
 import Button from "react-bootstrap/Button";
 import axios from "./axios";
+import { db } from "./firebase";
 
 function Payment() {
   const [{ Cart, user }, dispach] = useStateValue();
@@ -45,6 +46,15 @@ function Payment() {
         },
       })
       .then(({ paymentIntent }) => {
+        db.collection("users")
+          .doc(user?.uid)
+          .collection("orders")
+          .doc(paymentIntent.id)
+          .set({
+            Cart: Cart,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          });
         setSucceeded(true);
         setError(null);
         setProcessing(false);
@@ -112,13 +122,13 @@ function Payment() {
                   thousandSpacing={"2s"}
                   prefix={"₹"}
                 />
-                <button
+                <Button
                   type="submit"
                   variant="warning"
                   disabled={processing || disabled || succeeded}
                 >
                   <span>{processing ? <p>Processing</p> : "Place Order"}</span>
-                </button>
+                </Button>
               </div>
               <div>{error && <div>{error}</div>}</div>
             </form>

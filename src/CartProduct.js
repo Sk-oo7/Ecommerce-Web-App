@@ -1,9 +1,8 @@
 import React from "react";
-import "./CartProduct.css";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
 
-function CartProduct({ id, title, pic, price, rating }) {
+function CartProduct({ id, title, pic, price, rating, hideButton }) {
   const [{ Cart }, dispach] = useStateValue();
 
   const removeFromCart = () => {
@@ -49,9 +48,11 @@ function CartProduct({ id, title, pic, price, rating }) {
               </p>
             ))}
         </div>
-        <Button variant="danger" onClick={removeFromCart}>
-          Remove from Cart
-        </Button>
+        {!hideButton && (
+          <Button variant="danger" onClick={removeFromCart}>
+            Remove from Cart
+          </Button>
+        )}
       </div>
     </div>
 
