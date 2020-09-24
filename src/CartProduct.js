@@ -2,7 +2,6 @@ import React from "react";
 import "./CartProduct.css";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
-import { BorderBottom } from "@material-ui/icons";
 
 function CartProduct({ id, title, pic, price, rating }) {
   const [{ Cart }, dispach] = useStateValue();
@@ -24,7 +23,12 @@ function CartProduct({ id, title, pic, price, rating }) {
       }}
     >
       <div style={{ margin: "20px 20px 20px 20px" }}>
-        <img className="ProductItem_img" src={pic} width="200"></img>
+        <img
+          className="ProductItem_img"
+          src={pic}
+          width="200"
+          alt="productItem"
+        ></img>
       </div>
       <div
         className="product_details"

@@ -1,4 +1,3 @@
-import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState } from "react";
 import CartProduct from "./CartProduct";
 import "./Payment.css";
@@ -26,19 +25,21 @@ function Payment() {
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
-        url: `/payment/create?total=${getCartTotal(Cart) * 100}`,
+        url: `/payments/create?total=${getCartTotal(Cart) * 100}`,
       });
       setClientSecret(response.data.clientSecret);
     };
     getClientSecret();
   }, [Cart]);
 
+  console.log("S>>>>>>>", clientSecret);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
 
     const payload = await stripe
-      .configCardPayment(clientSecret, {
+      .confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
@@ -47,6 +48,10 @@ function Payment() {
         setSucceeded(true);
         setError(null);
         setProcessing(false);
+
+        dispach({
+          type: "EMPTY_CART",
+        });
 
         history.replace("/orders");
       });
@@ -96,7 +101,7 @@ function Payment() {
             <h3>Payment Method</h3>
           </div>
           <div className="payment_details">
-            <form onSumbit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
               <div className="payment_priceContainer">
                 <CurrencyFormat
@@ -107,14 +112,15 @@ function Payment() {
                   thousandSpacing={"2s"}
                   prefix={"₹"}
                 />
-                <Button
+                <button
+                  type="submit"
                   variant="warning"
                   disabled={processing || disabled || succeeded}
                 >
                   <span>{processing ? <p>Processing</p> : "Place Order"}</span>
-                </Button>
-                <div>{error && <div>{error}</div>}</div>
+                </button>
               </div>
+              <div>{error && <div>{error}</div>}</div>
             </form>
           </div>
         </div>

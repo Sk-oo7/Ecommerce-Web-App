@@ -57,7 +57,7 @@ function SignIn() {
         <Row className="justify-content-md-center">
           <Col md="auto FormDiv">
             <div className="formImage">
-              <img src={Logo} height="50"></img>
+              <img src={Logo} height="50" alt="logo"></img>
             </div>
             <div className="formHeading">
               <h1>Sign-In</h1>
