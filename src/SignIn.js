@@ -18,6 +18,7 @@ function SignIn() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [username, setUsername] = useState();
+  const [toggle, changeToggle] = useState(false);
 
   const signIn = (e) => {
     e.preventDefault();
@@ -49,10 +50,16 @@ function SignIn() {
         }
       })
       .catch((error) => alert(error.message));
+    changeToggle(false);
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "whitesmoke",
+        height: "100vh",
+      }}
+    >
       <Container>
         <Row className="justify-content-md-center">
           <Col md="auto FormDiv">
@@ -60,7 +67,8 @@ function SignIn() {
               <img src={Logo} height="50" alt="logo"></img>
             </div>
             <div className="formHeading">
-              <h1>Sign-In</h1>
+              {!toggle && <h1>Sign-In</h1>}
+              {toggle && <h1>Sign-Up</h1>}
             </div>
             <Form>
               <Form.Label htmlFor="inlineFormInput" srOnly>
@@ -79,17 +87,19 @@ function SignIn() {
                 Username
               </Form.Label>
 
-              <InputGroup className="mb-4 formInput">
-                <InputGroup.Prepend>
-                  <InputGroup.Text>@</InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl
-                  id="inlineFormInputGroup"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </InputGroup>
+              {toggle && (
+                <InputGroup className="mb-4 formInput">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>@</InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    id="inlineFormInputGroup"
+                    placeholder="Username (optional)"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </InputGroup>
+              )}
               <Form.Label htmlFor="inlineFormInput2" srOnly>
                 Password
               </Form.Label>
@@ -102,12 +112,54 @@ function SignIn() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <Button type="submit" className="mb-3" block onClick={signIn}>
-                Sign In
-              </Button>
-              <Button variant="warning" block onClick={register}>
-                Create new Account
-              </Button>
+              {!toggle && (
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  className="mb-3"
+                  block
+                  onClick={signIn}
+                >
+                  Sign In
+                </Button>
+              )}
+
+              {toggle && (
+                <Button variant="warning" block onClick={register}>
+                  Create new Account
+                </Button>
+              )}
+
+              {!toggle && (
+                <div
+                  style={{
+                    position: "absolute",
+                    right: "0",
+                    bottom: "10px",
+                    display: "flex",
+                  }}
+                >
+                  <div style={{ paddingTop: "7px" }}>New User?</div>
+                  <Button variant="link" onClick={() => changeToggle(true)}>
+                    SignUp
+                  </Button>
+                </div>
+              )}
+              {toggle && (
+                <div
+                  style={{
+                    position: "absolute",
+                    right: "0",
+                    bottom: "10px",
+                    display: "flex",
+                  }}
+                >
+                  <div style={{ paddingTop: "7px" }}>New User?</div>
+                  <Button variant="link" onClick={() => changeToggle(false)}>
+                    SignIn
+                  </Button>
+                </div>
+              )}
             </Form>
           </Col>
         </Row>
