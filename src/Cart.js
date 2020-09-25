@@ -14,8 +14,11 @@ function Cart() {
         <img className="Cart_Ad_1" src={ad_1} alt="Ad" />
         <div>
           <h2 className="cart_title">
-            Hello, {user?.displayName ? `${user?.displayName}` : "Guest"}. Your
-            Shopping Cart
+            Hello,{" "}
+            {user?.displayName
+              ? `${user?.displayName}`
+              : `${user?.email ? `${user?.email}` : "Guest"}`}
+            . Your Shopping Cart
           </h2>
           <EmptyCart />
           <div className="cartProduct">

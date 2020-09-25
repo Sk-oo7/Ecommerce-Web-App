@@ -1,0 +1,17 @@
+.wishlist > h1 {
+  padding: 10px 0;
+  text-align: center;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+}
+.wishlist_items {
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  /* margin-right: 50px; */
+}
+.list_back {
+  background-color: whitesmoke;
+  position: relative;
+  padding-bottom: 10px;
+}

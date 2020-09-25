@@ -13,6 +13,7 @@ import Payment from "./Payment.js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import MyOrders from "./MyOrders";
+import Wishlist from "./Wishlist";
 
 const promise = loadStripe(
   "pk_test_51HUf2KGbh00gXxRniEIzBZhn9i78igjGOfroFN8x6TldZa89RahUNeKiYue7EJh8v0oVown4wVNFDWCHHjJdALVo00ZhMVRl9l"
@@ -60,7 +61,7 @@ function App() {
           </Route>
           <Route path="/Wishlist" exact>
             <Header />
-            <h1>List</h1>
+            <Wishlist />
           </Route>
           <Route path="/">
             <Header />

@@ -3,6 +3,7 @@ import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import Order from "./Order.js";
 import "./MyOrders.css";
+import EmptyOrders from "./EmptyOrders";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -29,6 +30,7 @@ function MyOrders() {
   return (
     <div className="orders">
       <h1>My Orders</h1>
+      {orders?.length == 0 && <EmptyOrders />}
       <div className="orders_order">
         {orders?.map((order) => (
           <Order order={order} />

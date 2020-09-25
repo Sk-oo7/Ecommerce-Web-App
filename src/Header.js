@@ -61,7 +61,10 @@ export default function Header() {
                   color: "whitesmoke",
                 }}
               >
-                Hello, {user?.displayName ? `${user?.displayName}` : "Guest"}
+                Hello,{" "}
+                {user?.displayName
+                  ? `${user?.displayName}`
+                  : `${user?.email ? `${user?.email}` : "Guest"}`}
               </small>
               {user ? "Sign Out" : "Sign In"}
             </div>

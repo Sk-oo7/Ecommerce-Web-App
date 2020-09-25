@@ -2,12 +2,43 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
 
-function CartProduct({ id, title, pic, price, rating, hideButton }) {
+function CartProduct({
+  id,
+  title,
+  pic,
+  price,
+  rating,
+  hideButton,
+  showWishlistButton,
+  showCartButton,
+}) {
   const [{ Cart }, dispach] = useStateValue();
 
   const removeFromCart = () => {
     dispach({
       type: "REMOVE_FROM_CART",
+      id: id,
+    });
+  };
+  const removeFromWishlist = () => {
+    dispach({
+      type: "REMOVE_FROM_WISHLIST",
+      id: id,
+    });
+  };
+  const addToCart = () => {
+    dispach({
+      type: "ADD_TO_CART",
+      item: {
+        id: id,
+        title: title,
+        pic: pic,
+        price: price,
+        rating: rating,
+      },
+    });
+    dispach({
+      type: "REMOVE_FROM_WISHLIST",
       id: id,
     });
   };
@@ -51,6 +82,20 @@ function CartProduct({ id, title, pic, price, rating, hideButton }) {
         {!hideButton && (
           <Button variant="danger" onClick={removeFromCart}>
             Remove from Cart
+          </Button>
+        )}
+        {showCartButton && (
+          <Button variant="warning" onClick={addToCart}>
+            Add to Cart
+          </Button>
+        )}{" "}
+        {showWishlistButton && (
+          <Button
+            variant="danger"
+            onClick={removeFromWishlist}
+            style={{ marginLeft: "10px" }}
+          >
+            Remove from Wishlist
           </Button>
         )}
       </div>
