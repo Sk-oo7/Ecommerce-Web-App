@@ -33,8 +33,6 @@ function Payment() {
     getClientSecret();
   }, [Cart]);
 
-  console.log("S>>>>>>>", clientSecret);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);

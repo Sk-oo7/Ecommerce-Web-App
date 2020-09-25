@@ -9,3 +9,8 @@
   position: absolute;
   margin: -10px;
 }
+.search_inp :focus {
+  border: 1px solid lightgray !important;
+  /* outline: none !important; */
+  box-shadow: none !important;
+}

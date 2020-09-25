@@ -1,6 +1,7 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { isMobile } from "react-device-detect";
 
 import ProductItem from "./ProductItem.js";
 import product_carousel_1 from "./Assets/Img/Product_Carousel_1.jpg";
@@ -45,6 +46,8 @@ export default function ProductCarousel() {
         keyBoardControl={true}
         transitionDuration={500}
         containerClass="carousel-container"
+        autoPlay={!isMobile}
+        autoPlaySpeed={2000}
       >
         <div className="div_product_carousel">
           <ProductItem

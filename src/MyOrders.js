@@ -30,7 +30,7 @@ function MyOrders() {
   return (
     <div className="orders">
       <h1>My Orders</h1>
-      {orders?.length == 0 && <EmptyOrders />}
+      {orders?.length === 0 && <EmptyOrders />}
       <div className="orders_order">
         {orders?.map((order) => (
           <Order order={order} />

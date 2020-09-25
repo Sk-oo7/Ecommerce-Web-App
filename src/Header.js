@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "./logo.png";
-import Button from "react-bootstrap/Button";
+import SearchIcon from "@material-ui/icons/Search";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
@@ -15,11 +15,19 @@ import { auth } from "./firebase";
 
 export default function Header() {
   const [{ Cart, Wishlist, user }, dispach] = useStateValue();
+  const [search, setSearch] = useStateValue();
 
   const handleAuthentication = () => {
     if (user) {
       auth.signOut();
     }
+  };
+
+  const handleSearchValue = (event) => {
+    setSearch({
+      type: "SET_SEARCH",
+      search: event.target.value,
+    });
   };
 
   return (
@@ -30,12 +38,20 @@ export default function Header() {
         </Link>
       </Navbar.Brand>
 
-      <Form inline className="ml-auto">
-        <InputGroup class="mb-3">
-          <FormControl type="text" placeholder="Search" className="col-xs-4" />
-          <InputGroup.Append>
-            <Button variant="secondary">Search</Button>
-          </InputGroup.Append>
+      <Form inline className="ml-auto search_inp">
+        <InputGroup className="formInput search_inp">
+          <InputGroup.Prepend>
+            <InputGroup.Text>
+              <SearchIcon />
+            </InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            placeholder="Search"
+            className="col-xs-4 search_inp"
+            value={search.search}
+            onChange={handleSearchValue}
+          />
         </InputGroup>
       </Form>
 

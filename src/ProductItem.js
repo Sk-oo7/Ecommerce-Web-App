@@ -7,6 +7,7 @@ import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 
 export default function ProductItem({ id, title, pic, price, rating }) {
   const [{ Cart }, dispach] = useStateValue();
+  const [search, setSearch] = useStateValue();
 
   const addToCart = () => {
     dispach({
@@ -32,6 +33,12 @@ export default function ProductItem({ id, title, pic, price, rating }) {
       },
     });
   };
+  if (
+    search.search !== "" &&
+    title.toLowerCase().indexOf(search.search.toLowerCase()) === -1
+  ) {
+    return null;
+  }
   return (
     <Card style={{ width: "500px", margin: "20px 20px 20px 20px" }}>
       <Card.Img className="ProductItem_img" variant="top" src={pic} />

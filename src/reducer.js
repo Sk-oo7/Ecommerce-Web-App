@@ -2,6 +2,7 @@ export const initialState = {
   Cart: [],
   Wishlist: [],
   user: null,
+  search: "",
 };
 
 export const getCartTotal = (Cart) =>
@@ -62,6 +63,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         Cart: [],
+      };
+    case "SET_SEARCH":
+      return {
+        ...state,
+        search: action.search,
       };
 
     default:
