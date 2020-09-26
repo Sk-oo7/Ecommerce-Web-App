@@ -31,3 +31,8 @@
 .ActionButtons {
   display: flex;
 }
+
+.modal {
+  background-color: transparent;
+  opacity: 0.9;
+}
