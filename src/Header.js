@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "./logo.png";
 import SearchIcon from "@material-ui/icons/Search";
 import Navbar from "react-bootstrap/Navbar";
@@ -11,15 +11,27 @@ import Link from "react-router-dom/Link";
 import { useStateValue } from "./StateProvider";
 import Badge from "react-bootstrap/Badge";
 import InputGroup from "react-bootstrap/InputGroup";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 export default function Header() {
   const [{ Cart, Wishlist, user }, dispach] = useStateValue();
   const [search, setSearch] = useStateValue();
+  const [listSize, setlistSize] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) => setlistSize(snapshot.size));
+    }
+  }, [user]);
 
   const handleAuthentication = () => {
     if (user) {
       auth.signOut();
+      setlistSize(0);
     }
   };
 
@@ -98,9 +110,9 @@ export default function Header() {
             <div className="wishListIcon">
               <LoyaltySharpIcon />
 
-              {Wishlist?.length > 0 && (
+              {listSize > 0 && (
                 <Badge variant="danger" class="badge">
-                  {Wishlist?.length}
+                  {listSize}
                 </Badge>
               )}
             </div>

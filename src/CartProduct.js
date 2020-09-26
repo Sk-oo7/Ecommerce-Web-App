@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 
 function CartProduct({
@@ -12,7 +13,7 @@ function CartProduct({
   showWishlistButton,
   showCartButton,
 }) {
-  const [{ Cart }, dispach] = useStateValue();
+  const [{ user, Cart }, dispach] = useStateValue();
 
   const removeFromCart = () => {
     dispach({
@@ -21,10 +22,15 @@ function CartProduct({
     });
   };
   const removeFromWishlist = () => {
-    dispach({
-      type: "REMOVE_FROM_WISHLIST",
-      id: id,
-    });
+    db.collection("users")
+      .doc(user?.uid)
+      .collection("Wishlist")
+      .onSnapshot((snapshot) =>
+        snapshot.docs.map((doc) => {
+          doc.data().id == id && doc.ref.delete();
+          id = -1;
+        })
+      );
   };
   const addToCart = () => {
     dispach({
@@ -36,10 +42,6 @@ function CartProduct({
         price: price,
         rating: rating,
       },
-    });
-    dispach({
-      type: "REMOVE_FROM_WISHLIST",
-      id: id,
     });
   };
   return (

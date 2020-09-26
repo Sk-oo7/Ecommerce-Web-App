@@ -11,7 +11,7 @@ import axios from "./axios";
 import { db } from "./firebase";
 
 function Payment() {
-  const [{ Cart, user }, dispach] = useStateValue();
+  const [{ Cart, user, Wishlist }, dispach] = useStateValue();
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
@@ -53,6 +53,7 @@ function Payment() {
             amount: paymentIntent.amount,
             created: paymentIntent.created,
           });
+
         setSucceeded(true);
         setError(null);
         setProcessing(false);

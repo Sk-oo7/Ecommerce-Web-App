@@ -5,9 +5,10 @@ import "./Products.css";
 import { useStateValue } from "./StateProvider";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import Modal from "react-bootstrap/Modal";
+import { db } from "./firebase";
 
 export default function ProductItem({ id, title, pic, price, rating }) {
-  const [{ Cart }, dispach] = useStateValue();
+  const [{ user, Cart, Wishlist }, dispach] = useStateValue();
   const [search, setSearch] = useStateValue();
   const [showModal, setShowMoadal] = useState(false);
   const [showWishModal, setShowWishMoadal] = useState(false);
@@ -40,15 +41,12 @@ export default function ProductItem({ id, title, pic, price, rating }) {
     setShowMoadal(true);
   };
   const addToWishlist = () => {
-    dispach({
-      type: "ADD_TO_WISHLIST",
-      item: {
-        id: id,
-        title: title,
-        pic: pic,
-        price: price,
-        rating: rating,
-      },
+    db.collection("users").doc(user?.uid).collection("Wishlist").add({
+      title: title,
+      id: id,
+      pic: pic,
+      price: price,
+      rating: rating,
     });
     setShowWishMoadal(true);
   };

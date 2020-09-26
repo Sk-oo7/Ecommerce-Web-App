@@ -1,6 +1,5 @@
 export const initialState = {
   Cart: [],
-  Wishlist: [],
   user: null,
   search: "",
 };
@@ -14,11 +13,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         Cart: [...state.Cart, action.item],
-      };
-    case "ADD_TO_WISHLIST":
-      return {
-        ...state,
-        Wishlist: [...state.Wishlist, action.item],
       };
     case "REMOVE_FROM_CART":
       const index = state.Cart.findIndex(
@@ -36,23 +30,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         Cart: newCart,
-      };
-    case "REMOVE_FROM_WISHLIST":
-      const i = state.Wishlist.findIndex(
-        (WishItem) => WishItem.id === action.id
-      );
-      let newWish = [...state.Wishlist];
-
-      if (i >= 0) {
-        newWish.splice(i, 1);
-      } else {
-        console.warn(
-          "Cant remove product (id: ${action.id)) as its not in WishList!"
-        );
-      }
-      return {
-        ...state,
-        Wishlist: newWish,
       };
     case "SET_USER":
       return {
