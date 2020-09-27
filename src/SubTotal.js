@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./SubTotal.css";
 import CurrencyFormat from "react-currency-format";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
 import { getCartTotal } from "./reducer";
 import { useHistory } from "react-router-dom";
+import { db } from "./firebase";
 
-function SubTotal() {
+function SubTotal({ Len }) {
   const history = useHistory();
-  const [{ Cart }, dispach] = useStateValue();
-  if (Cart?.length === 0) {
+  const [{ Cart, user }, dispach] = useStateValue();
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            setTotal((amt) => parseInt(doc.data().price, 10) + amt, 0);
+          })
+        );
+    }
+  }, []);
+
+  if (Len === 0) {
     return (
       <div className="subtotal">
         <CurrencyFormat
@@ -17,7 +33,7 @@ function SubTotal() {
             <>
               <p>
                 {" "}
-                Subtotal ({Cart.length} Items):
+                Subtotal ({Len} Items):
                 <strong>{value}</strong>
               </p>
 
@@ -27,7 +43,7 @@ function SubTotal() {
             </>
           )}
           decimalScale={2}
-          value={getCartTotal(Cart)}
+          value={0}
           displayType={"text"}
           thousandSpacing={"2s"}
           prefix={"₹"}
@@ -45,7 +61,7 @@ function SubTotal() {
             <>
               <p>
                 {" "}
-                Subtotal ({Cart.length} Items):
+                Subtotal ({Len} Items):
                 <strong>{value}</strong>
               </p>
 
@@ -55,7 +71,7 @@ function SubTotal() {
             </>
           )}
           decimalScale={2}
-          value={getCartTotal(Cart)}
+          value={total}
           displayType={"text"}
           thousandSpacing={"2s"}
           prefix={"₹"}

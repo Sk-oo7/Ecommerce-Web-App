@@ -18,6 +18,8 @@ export default function Header() {
   const [{ Cart, Wishlist, user }, dispach] = useStateValue();
   const [search, setSearch] = useStateValue();
   const [listSize, setlistSize] = useState(0);
+  const [cartSize, setCartSize] = useState(0);
+  console.log(cartSize);
 
   useEffect(() => {
     if (user) {
@@ -26,12 +28,19 @@ export default function Header() {
         .collection("Wishlist")
         .onSnapshot((snapshot) => setlistSize(snapshot.size));
     }
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Cart")
+        .onSnapshot((snapshot) => setCartSize(snapshot.size));
+    }
   }, [user]);
 
   const handleAuthentication = () => {
     if (user) {
       auth.signOut();
       setlistSize(0);
+      setCartSize(0);
     }
   };
 
@@ -122,9 +131,9 @@ export default function Header() {
           <Link to="/Cart" className="link">
             <ShoppingCartSharpIcon />
 
-            {Cart?.length > 0 && (
+            {cartSize > 0 && (
               <Badge variant="success" class="badge">
-                {Cart?.length}
+                {cartSize}
               </Badge>
             )}
           </Link>

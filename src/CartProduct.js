@@ -15,34 +15,57 @@ function CartProduct({
 }) {
   const [{ user, Cart }, dispach] = useStateValue();
 
+  let x = id;
   const removeFromCart = () => {
-    dispach({
-      type: "REMOVE_FROM_CART",
-      id: id,
-    });
+    db.collection("users")
+      .doc(user?.uid)
+      .collection("Cart")
+      .onSnapshot((snapshot) =>
+        snapshot.docs.map((doc) => {
+          if (doc.data().id == id) {
+            doc.ref.delete();
+            id = -1;
+          }
+        })
+      );
+    id = x;
   };
+  let y = id;
   const removeFromWishlist = () => {
     db.collection("users")
       .doc(user?.uid)
       .collection("Wishlist")
       .onSnapshot((snapshot) =>
         snapshot.docs.map((doc) => {
-          doc.data().id == id && doc.ref.delete();
-          id = -1;
+          if (doc.data().id == id) {
+            doc.ref.delete();
+            id = -1;
+          }
         })
       );
+    id = y;
   };
+  let z = id;
   const addToCart = () => {
-    dispach({
-      type: "ADD_TO_CART",
-      item: {
-        id: id,
-        title: title,
-        pic: pic,
-        price: price,
-        rating: rating,
-      },
+    db.collection("users").doc(user?.uid).collection("Cart").add({
+      title: title,
+      id: id,
+      pic: pic,
+      price: price,
+      rating: rating,
     });
+    db.collection("users")
+      .doc(user?.uid)
+      .collection("Wishlist")
+      .onSnapshot((snapshot) =>
+        snapshot.docs.map((doc) => {
+          if (doc.data().id == id) {
+            doc.ref.delete();
+            id = -1;
+          }
+        })
+      );
+    id = z;
   };
   return (
     <div

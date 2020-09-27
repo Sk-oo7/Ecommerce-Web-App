@@ -27,15 +27,12 @@ export default function ProductItem({ id, title, pic, price, rating }) {
   });
 
   const addToCart = () => {
-    dispach({
-      type: "ADD_TO_CART",
-      item: {
-        id: id,
-        title: title,
-        pic: pic,
-        price: price,
-        rating: rating,
-      },
+    db.collection("users").doc(user?.uid).collection("Cart").add({
+      title: title,
+      id: id,
+      pic: pic,
+      price: price,
+      rating: rating,
     });
 
     setShowMoadal(true);
