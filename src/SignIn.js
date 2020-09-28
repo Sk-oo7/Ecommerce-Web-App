@@ -139,7 +139,7 @@ function SignIn() {
                     display: "flex",
                   }}
                 >
-                  <div style={{ paddingTop: "7px" }}>New User?</div>
+                  <div style={{ paddingTop: "7px" }}>New to Buy-Aura?</div>
                   <Button variant="link" onClick={() => changeToggle(true)}>
                     SignUp
                   </Button>
@@ -154,7 +154,7 @@ function SignIn() {
                     display: "flex",
                   }}
                 >
-                  <div style={{ paddingTop: "7px" }}>New User?</div>
+                  <div style={{ paddingTop: "7px" }}>Existing User?</div>
                   <Button variant="link" onClick={() => changeToggle(false)}>
                     SignIn
                   </Button>

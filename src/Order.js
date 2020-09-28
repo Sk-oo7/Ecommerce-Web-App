@@ -17,11 +17,11 @@ function Order({ order }) {
       <div className="cartProduct">
         {order.data.Cart?.map((item) => (
           <CartProduct
-            id={item.id}
-            title={item.title}
-            pic={item.pic}
-            price={item.price}
-            rating={item.rating}
+            id={item.data.id}
+            title={item.data.title}
+            pic={item.data.pic}
+            price={item.data.price}
+            rating={item.data.rating}
             hideButton
           />
         ))}

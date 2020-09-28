@@ -5,7 +5,6 @@ import { useStateValue } from "./StateProvider";
 import { Link, useHistory } from "react-router-dom";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
-import { getCartTotal } from "./reducer";
 import Button from "react-bootstrap/Button";
 import axios from "./axios";
 import { db } from "./firebase";
@@ -21,17 +20,54 @@ function Payment() {
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState(true);
+  const [cart, setcart] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const getCartTotal = () => {
+    return total;
+  };
 
   useEffect(() => {
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          setcart(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+          )
+        );
+    }
+  }, [user]);
+
+  let sum = 0;
+  useEffect(() => {
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            sum = parseInt(sum, 10) + parseInt(doc.data().price, 10);
+            setTotal(sum);
+          })
+        );
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    console.log("dfsgdf", total);
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
-        url: `/payments/create?total=${getCartTotal(Cart) * 100}`,
+        url: `/payments/create?total=${total * 100}`,
       });
       setClientSecret(response.data.clientSecret);
     };
     getClientSecret();
-  }, [Cart]);
+  }, [total]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,7 +85,7 @@ function Payment() {
           .collection("orders")
           .doc(paymentIntent.id)
           .set({
-            Cart: Cart,
+            Cart: cart,
             amount: paymentIntent.amount,
             created: paymentIntent.created,
           });
@@ -58,11 +94,21 @@ function Payment() {
         setError(null);
         setProcessing(false);
 
-        dispach({
-          type: "EMPTY_CART",
-        });
+        // dispach({
+        //   type: "EMPTY_CART",
+        // });
+
+        db.collection("users")
+          .doc(user?.uid)
+          .collection("Cart")
+          .onSnapshot((snapshot) =>
+            snapshot.docs.map((doc) => {
+              doc.ref.delete();
+            })
+          );
 
         history.replace("/orders");
+        window.location.reload();
       });
   };
   const handleChange = (event) => {
@@ -74,7 +120,7 @@ function Payment() {
     <div className="payment">
       <div className="payment_container">
         <h1>
-          Checkout (<Link to="/Cart">{Cart?.length} items</Link>)
+          Checkout (<Link to="/Cart">{cart?.length} items</Link>)
         </h1>
         <div className="payment_section">
           <div className="payment_title">
@@ -93,13 +139,13 @@ function Payment() {
             <h3>Review Items and Delivery</h3>
           </div>
           <div className="payment_items">
-            {Cart.map((item) => (
+            {cart.map((item) => (
               <CartProduct
-                id={item.id}
-                title={item.title}
-                pic={item.pic}
-                price={item.price}
-                rating={item.rating}
+                id={item.data.id}
+                title={item.data.title}
+                pic={item.data.pic}
+                price={item.data.price}
+                rating={item.data.rating}
               />
             ))}
           </div>
@@ -112,23 +158,47 @@ function Payment() {
           <div className="payment_details">
             <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
-              <div className="payment_priceContainer">
-                <CurrencyFormat
-                  renderText={(value) => <h3>Order Total: {value} </h3>}
-                  decimalScale={2}
-                  value={getCartTotal(Cart)}
-                  displayType={"text"}
-                  thousandSpacing={"2s"}
-                  prefix={"₹"}
-                />
-                <Button
-                  type="submit"
-                  variant="warning"
-                  disabled={processing || disabled || succeeded}
-                >
-                  <span>{processing ? <p>Processing</p> : "Place Order"}</span>
-                </Button>
-              </div>
+
+              {cart?.length !== 0 && (
+                <div className="payment_priceContainer">
+                  <CurrencyFormat
+                    renderText={(value) => <h3>Order Total: {value} </h3>}
+                    decimalScale={2}
+                    value={total}
+                    displayType={"text"}
+                    thousandSpacing={"2s"}
+                    prefix={"₹"}
+                  />
+                  <Button
+                    type="submit"
+                    variant="warning"
+                    disabled={processing || disabled || succeeded}
+                  >
+                    <span>
+                      {processing ? <p>Processing</p> : "Place Order"}
+                    </span>
+                  </Button>
+                </div>
+              )}
+
+              {cart?.length === 0 && (
+                <div className="payment_priceContainer">
+                  <CurrencyFormat
+                    renderText={(value) => <h3>Order Total: {value} </h3>}
+                    decimalScale={2}
+                    value={0}
+                    displayType={"text"}
+                    thousandSpacing={"2s"}
+                    prefix={"₹"}
+                  />
+                  <Button type="submit" variant="warning" disabled={true}>
+                    <span>
+                      {processing ? <p>Processing</p> : "Place Order"}
+                    </span>
+                  </Button>
+                </div>
+              )}
+
               <div>{error && <div>{error}</div>}</div>
             </form>
           </div>
