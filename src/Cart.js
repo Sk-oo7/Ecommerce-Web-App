@@ -10,6 +10,7 @@ import { db } from "./firebase";
 function Cart() {
   const [{ user, Wishlist }, dispatch] = useStateValue();
   const [cart, setcart] = useState([]);
+  const [guest, setGuest] = useStateValue();
 
   useEffect(() => {
     if (user) {
@@ -25,6 +26,21 @@ function Cart() {
         );
     }
   }, [user]);
+
+  useEffect(() => {
+    if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          setcart(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+          )
+        );
+    }
+  }, [guest]);
 
   return (
     <div className="Cart">

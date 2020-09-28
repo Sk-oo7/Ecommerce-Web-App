@@ -19,7 +19,23 @@ export default function Header() {
   const [search, setSearch] = useStateValue();
   const [listSize, setlistSize] = useState(0);
   const [cartSize, setCartSize] = useState(0);
+  const [guest, setGuest] = useStateValue();
   console.log(cartSize);
+
+  useEffect(() => {
+    if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) => setlistSize(snapshot.size));
+    }
+    if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Cart")
+        .onSnapshot((snapshot) => setCartSize(snapshot.size));
+    }
+  }, [guest]);
 
   useEffect(() => {
     if (user) {
@@ -41,6 +57,7 @@ export default function Header() {
       auth.signOut();
       setlistSize(0);
       setCartSize(0);
+      window.location.reload(false);
     }
   };
 
@@ -99,7 +116,7 @@ export default function Header() {
                 }}
               >
                 Hello,{" "}
-                {user?.displayName
+                {user
                   ? `${user?.displayName}`
                   : `${user?.email ? `${user?.email}` : "Guest"}`}
               </small>
@@ -130,7 +147,6 @@ export default function Header() {
         <Nav.Link>
           <Link to="/Cart" className="link">
             <ShoppingCartSharpIcon />
-
             {cartSize > 0 && (
               <Badge variant="success" class="badge">
                 {cartSize}

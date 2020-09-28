@@ -2,6 +2,7 @@ export const initialState = {
   Cart: [],
   user: null,
   search: "",
+  guest: "",
 };
 
 export const getCartTotal = (Cart) =>
@@ -45,6 +46,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         search: action.search,
+      };
+    case "SET_GUEST":
+      return {
+        ...state,
+        guest: action.guest,
       };
 
     default:

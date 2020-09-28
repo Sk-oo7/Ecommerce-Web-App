@@ -20,7 +20,8 @@ const promise = loadStripe(
 );
 
 function App() {
-  const [{}, dispach] = useStateValue();
+  const [{ search }, dispach] = useStateValue();
+  const [guest, setGuest] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -29,7 +30,18 @@ function App() {
           type: "SET_USER",
           user: authUser,
         });
+        console.log("user", authUser);
       } else {
+        fetch(
+          "https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91"
+        )
+          .then((response) => response.json())
+          .then((data) =>
+            setGuest({
+              type: "SET_GUEST",
+              guest: data.IPv4,
+            })
+          );
         dispach({
           type: "SET_USER",
           user: null,
@@ -37,7 +49,6 @@ function App() {
       }
     });
   }, []);
-
   return (
     <Router>
       <div className="App">

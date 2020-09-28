@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
@@ -14,58 +14,111 @@ function CartProduct({
   showCartButton,
 }) {
   const [{ user, Cart }, dispach] = useStateValue();
+  const [guest, setGuest] = useStateValue();
 
   let x = id;
   const removeFromCart = () => {
-    db.collection("users")
-      .doc(user?.uid)
-      .collection("Cart")
-      .onSnapshot((snapshot) =>
-        snapshot.docs.map((doc) => {
-          if (doc.data().id == id) {
-            doc.ref.delete();
-            id = -1;
-          }
-        })
-      );
-    id = x;
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            if (doc.data().id == id) {
+              doc.ref.delete();
+              id = -1;
+            }
+          })
+        );
+      id = x;
+    } else if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            if (doc.data().id == id) {
+              doc.ref.delete();
+              id = -1;
+            }
+          })
+        );
+      id = x;
+    }
   };
   let y = id;
   const removeFromWishlist = () => {
-    db.collection("users")
-      .doc(user?.uid)
-      .collection("Wishlist")
-      .onSnapshot((snapshot) =>
-        snapshot.docs.map((doc) => {
-          if (doc.data().id == id) {
-            doc.ref.delete();
-            id = -1;
-          }
-        })
-      );
-    id = y;
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            if (doc.data().id == id) {
+              doc.ref.delete();
+              id = -1;
+            }
+          })
+        );
+      id = y;
+    } else if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            if (doc.data().id == id) {
+              doc.ref.delete();
+              id = -1;
+            }
+          })
+        );
+      id = y;
+    }
   };
   let z = id;
   const addToCart = () => {
-    db.collection("users").doc(user?.uid).collection("Cart").add({
-      title: title,
-      id: id,
-      pic: pic,
-      price: price,
-      rating: rating,
-    });
-    db.collection("users")
-      .doc(user?.uid)
-      .collection("Wishlist")
-      .onSnapshot((snapshot) =>
-        snapshot.docs.map((doc) => {
-          if (doc.data().id == id) {
-            doc.ref.delete();
-            id = -1;
-          }
-        })
-      );
-    id = z;
+    if (user) {
+      db.collection("users").doc(user?.uid).collection("Cart").add({
+        title: title,
+        id: id,
+        pic: pic,
+        price: price,
+        rating: rating,
+      });
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            if (doc.data().id == id) {
+              doc.ref.delete();
+              id = -1;
+            }
+          })
+        );
+      id = z;
+    } else if (guest?.guest) {
+      db.collection("guests").doc(guest?.guest).collection("Cart").add({
+        title: title,
+        id: id,
+        pic: pic,
+        price: price,
+        rating: rating,
+      });
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            if (doc.data().id == id) {
+              doc.ref.delete();
+              id = -1;
+            }
+          })
+        );
+      id = z;
+    }
   };
   return (
     <div

@@ -9,6 +9,7 @@ import { db } from "./firebase";
 
 export default function ProductItem({ id, title, pic, price, rating }) {
   const [{ user, Cart, Wishlist }, dispach] = useStateValue();
+  const [guest, setGuest] = useStateValue();
   const [search, setSearch] = useStateValue();
   const [showModal, setShowMoadal] = useState(false);
   const [showWishModal, setShowWishMoadal] = useState(false);
@@ -27,24 +28,44 @@ export default function ProductItem({ id, title, pic, price, rating }) {
   });
 
   const addToCart = () => {
-    db.collection("users").doc(user?.uid).collection("Cart").add({
-      title: title,
-      id: id,
-      pic: pic,
-      price: price,
-      rating: rating,
-    });
+    if (user) {
+      db.collection("users").doc(user?.uid).collection("Cart").add({
+        title: title,
+        id: id,
+        pic: pic,
+        price: price,
+        rating: rating,
+      });
+    } else if (guest?.guest) {
+      db.collection("guests").doc(guest?.guest).collection("Cart").add({
+        title: title,
+        id: id,
+        pic: pic,
+        price: price,
+        rating: rating,
+      });
+    }
 
     setShowMoadal(true);
   };
   const addToWishlist = () => {
-    db.collection("users").doc(user?.uid).collection("Wishlist").add({
-      title: title,
-      id: id,
-      pic: pic,
-      price: price,
-      rating: rating,
-    });
+    if (user) {
+      db.collection("users").doc(user?.uid).collection("Wishlist").add({
+        title: title,
+        id: id,
+        pic: pic,
+        price: price,
+        rating: rating,
+      });
+    } else if (guest?.guest) {
+      db.collection("guests").doc(guest?.guest).collection("Wishlist").add({
+        title: title,
+        id: id,
+        pic: pic,
+        price: price,
+        rating: rating,
+      });
+    }
     setShowWishMoadal(true);
   };
   if (

@@ -7,6 +7,7 @@ import { db } from "./firebase";
 
 function Wishlist() {
   const [{ user, Wishlist }, dispatch] = useStateValue();
+  const [guest, setGuest] = useStateValue();
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -23,6 +24,21 @@ function Wishlist() {
         );
     }
   }, [user]);
+
+  useEffect(() => {
+    if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Wishlist")
+        .onSnapshot((snapshot) =>
+          setList(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+          )
+        );
+    }
+  }, [guest]);
 
   return (
     <div className="list_back">
