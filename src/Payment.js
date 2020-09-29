@@ -22,6 +22,7 @@ function Payment() {
   const [clientSecret, setClientSecret] = useState(true);
   const [cart, setcart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [guest, setGuest] = useStateValue();
 
   const getCartTotal = () => {
     return total;
@@ -42,6 +43,21 @@ function Payment() {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          setcart(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+          )
+        );
+    }
+  }, [guest]);
+
   let sum = 0;
   useEffect(() => {
     if (user) {
@@ -54,11 +70,20 @@ function Payment() {
             setTotal(sum);
           })
         );
+    } else if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            sum = parseInt(sum, 10) + parseInt(doc.data().price, 10);
+            setTotal(sum);
+          })
+        );
     }
   }, [cart]);
 
   useEffect(() => {
-    console.log("dfsgdf", total);
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
@@ -80,15 +105,27 @@ function Payment() {
         },
       })
       .then(({ paymentIntent }) => {
-        db.collection("users")
-          .doc(user?.uid)
-          .collection("orders")
-          .doc(paymentIntent.id)
-          .set({
-            Cart: cart,
-            amount: paymentIntent.amount,
-            created: paymentIntent.created,
-          });
+        if (user) {
+          db.collection("users")
+            .doc(user?.uid)
+            .collection("orders")
+            .doc(paymentIntent.id)
+            .set({
+              Cart: cart,
+              amount: paymentIntent.amount,
+              created: paymentIntent.created,
+            });
+        } else if (guest?.guest) {
+          db.collection("guests")
+            .doc(guest?.guest)
+            .collection("orders")
+            .doc(paymentIntent.id)
+            .set({
+              Cart: cart,
+              amount: paymentIntent.amount,
+              created: paymentIntent.created,
+            });
+        }
 
         setSucceeded(true);
         setError(null);
@@ -98,14 +135,25 @@ function Payment() {
         //   type: "EMPTY_CART",
         // });
 
-        db.collection("users")
-          .doc(user?.uid)
-          .collection("Cart")
-          .onSnapshot((snapshot) =>
-            snapshot.docs.map((doc) => {
-              doc.ref.delete();
-            })
-          );
+        if (user) {
+          db.collection("users")
+            .doc(user?.uid)
+            .collection("Cart")
+            .onSnapshot((snapshot) =>
+              snapshot.docs.map((doc) => {
+                doc.ref.delete();
+              })
+            );
+        } else if (guest?.guest) {
+          db.collection("guests")
+            .doc(guest?.guest)
+            .collection("Cart")
+            .onSnapshot((snapshot) =>
+              snapshot.docs.map((doc) => {
+                doc.ref.delete();
+              })
+            );
+        }
 
         history.replace("/orders");
         window.location.reload();

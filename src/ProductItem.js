@@ -118,6 +118,7 @@ export default function ProductItem({ id, title, pic, price, rating }) {
         centered
         className="modal"
         size="md"
+        restoreFocus={true}
       >
         <Modal.Body>
           <h1>

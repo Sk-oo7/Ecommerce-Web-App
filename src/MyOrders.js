@@ -8,6 +8,8 @@ import EmptyOrders from "./EmptyOrders";
 function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [{ user, Cart }, dispach] = useStateValue([]);
+  const [guest, setGuest] = useStateValue();
+
   useEffect(() => {
     if (user) {
       db.collection("users")
@@ -26,6 +28,25 @@ function MyOrders() {
       setOrders([]);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
+        .collection("orders")
+        .orderBy("created", "desc")
+        .onSnapshot((snapshot) =>
+          setOrders(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              data: doc.data(),
+            }))
+          )
+        );
+    } else {
+      setOrders([]);
+    }
+  }, [guest]);
 
   return (
     <div className="orders">

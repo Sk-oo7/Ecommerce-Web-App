@@ -11,12 +11,23 @@ function SubTotal({ Len }) {
   const history = useHistory();
   const [{ Cart, user }, dispach] = useStateValue();
   const [total, setTotal] = useState(0);
+  const [guest, setGuest] = useStateValue();
 
   let sum = 0;
   useEffect(() => {
     if (user) {
       db.collection("users")
         .doc(user?.uid)
+        .collection("Cart")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map((doc) => {
+            sum = parseInt(sum, 10) + parseInt(doc.data().price, 10);
+            setTotal(sum);
+          })
+        );
+    } else if (guest?.guest) {
+      db.collection("guests")
+        .doc(guest?.guest)
         .collection("Cart")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {

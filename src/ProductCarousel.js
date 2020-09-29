@@ -37,7 +37,7 @@ export default function ProductCarousel() {
       </center>
 
       <Carousel
-        swipeable={false}
+        swipeable={true}
         draggable={false}
         showDots={false}
         responsive={responsive}
