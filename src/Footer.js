@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./Footer.css";
 import Container from "react-bootstrap/Container";
@@ -12,9 +12,41 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import RoomIcon from "@material-ui/icons/Room";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
-import { Link } from "react-router-dom";
+import { db } from "./firebase";
 
 function Footer() {
+  const [Email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleMessage = (e) => {
+    e.preventDefault();
+    if (Email !== "" && message !== "") {
+      var aindex = Email.indexOf("@");
+      var cindex = Email.indexOf(".com");
+      if (aindex !== -1 && cindex != -1 && cindex - aindex >= 2) {
+        db.collection("messages").add({
+          email: Email,
+          message: message,
+        });
+
+        alert("Your Response is Submitted");
+        setEmail("");
+        setMessage("");
+      } else {
+        alert("Wrong Email Format");
+      }
+    } else {
+      if (Email === "" && message === "") {
+        alert("Please enter your Email and Message");
+      } else {
+        if (Email === "") alert("Please enter your Email");
+        if (message === "") {
+          alert("Please enter your Message");
+        }
+      }
+    }
+  };
+
   const moveToTop = () => {
     window.scrollTo({
       top: 0,
@@ -77,15 +109,30 @@ function Footer() {
             </center>
 
             <Form>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={Email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
 
               <Form.Control
                 as="textarea"
                 rows="2"
                 placeholder="Your message"
                 style={{ marginTop: "10px" }}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
               />
-              <Button style={{ marginTop: "10px" }} block variant="secondary">
+              <Button
+                style={{ marginTop: "10px" }}
+                type="submit"
+                block
+                variant="secondary"
+                onClick={handleMessage}
+              >
                 Submit
               </Button>
             </Form>
