@@ -12,6 +12,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import RoomIcon from "@material-ui/icons/Room";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const moveToTop = () => {
@@ -93,8 +94,30 @@ function Footer() {
         <hr />
         <div className="logos">
           <div>
-            <GitHubIcon fontSize="large" /> <FacebookIcon fontSize="large" />{" "}
-            <InstagramIcon fontSize="large" /> <LinkedInIcon fontSize="large" />
+            <a
+              href="https://github.com/Sk-oo7"
+              style={{ color: "rgb(194, 191, 191)" }}
+            >
+              <GitHubIcon fontSize="large" />
+            </a>{" "}
+            <a
+              href="https://www.facebook.com/shubham.khullar.33/"
+              style={{ color: "rgb(194, 191, 191)" }}
+            >
+              <FacebookIcon fontSize="large" />
+            </a>{" "}
+            <a
+              href="https://www.instagram.com/shubham_khullar_007/"
+              style={{ color: "rgb(194, 191, 191)" }}
+            >
+              <InstagramIcon fontSize="large" />
+            </a>{" "}
+            <a
+              href="https://www.linkedin.com/in/shubham-khullar-3915531b6/"
+              style={{ color: "rgb(194, 191, 191)" }}
+            >
+              <LinkedInIcon fontSize="large" />
+            </a>
           </div>
         </div>
       </Container>
