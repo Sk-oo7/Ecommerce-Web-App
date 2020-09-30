@@ -1,0 +1,48 @@
+.footer {
+  height: 400px;
+  background-color: rgb(34, 41, 43);
+  color: whitesmoke;
+}
+.foot {
+  height: 50px;
+  background-color: rgb(16, 19, 20);
+  color: whitesmoke;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+hr {
+  background-color: whitesmoke;
+}
+img {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.logos {
+  display: flex;
+  justify-content: space-evenly;
+}
+li.footer_payment {
+  list-style-type: none;
+  color: rgb(194, 191, 191);
+  margin-left: 50px;
+}
+h6 {
+  color: rgb(194, 191, 191);
+  justify-content: space-around;
+  margin-left: 10px;
+}
+hr.small {
+  background-color: rgb(163, 154, 154);
+}
+h7 {
+  color: rgb(194, 191, 191);
+  justify-content: space-around;
+  margin-left: 10px;
+}
+h7 > a {
+  color: rgb(194, 191, 191);
+}
+h7 > a:hover {
+  color: whitesmoke;
+}

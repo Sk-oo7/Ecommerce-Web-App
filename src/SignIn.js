@@ -50,7 +50,7 @@ function SignIn() {
         }
       })
       .catch((error) => alert(error.message));
-    changeToggle(false);
+    if (user !== null) changeToggle(false);
   };
 
   return (

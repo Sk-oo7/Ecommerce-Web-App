@@ -14,6 +14,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import MyOrders from "./MyOrders";
 import Wishlist from "./Wishlist";
+import Footer from "./Footer";
 
 const promise = loadStripe(
   "pk_test_51HUf2KGbh00gXxRniEIzBZhn9i78igjGOfroFN8x6TldZa89RahUNeKiYue7EJh8v0oVown4wVNFDWCHHjJdALVo00ZhMVRl9l"
@@ -56,6 +57,7 @@ function App() {
           <Route path="/cart" exact>
             <Header />
             <Cart />
+            <Footer />
           </Route>
           <Route path="/SignIn" exact>
             <SignIn />
@@ -69,16 +71,19 @@ function App() {
           <Route path="/Orders" exact>
             <Header />
             <MyOrders />
+            <Footer />
           </Route>
           <Route path="/Wishlist" exact>
             <Header />
             <Wishlist />
+            <Footer />
           </Route>
           <Route path="/">
             <Header />
             <HomeCarousel />
             <Products />
             <ProductCarousel />
+            <Footer />
           </Route>
         </Switch>
       </div>
