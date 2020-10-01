@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "./StateProvider";
 import Jumbotron from "react-bootstrap/Jumbotron";
-import { Avatar } from "@material-ui/core";
+import { Avatar, FormControlLabel, FormGroup } from "@material-ui/core";
 import "./Profile.css";
 import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
 import HomeWorkRoundedIcon from "@material-ui/icons/HomeWorkRounded";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import EmailRoundedIcon from "@material-ui/icons/EmailRounded";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import { auth, db } from "./firebase";
 
 function Profile() {
@@ -17,6 +17,9 @@ function Profile() {
   const [number, setNumber] = useState();
   const [email, setEmail] = useState();
   const [address, setAddress] = useState();
+  const [password, setPassword] = useState();
+  const [showChange, setShowChange] = useState(false);
+  const [anyChange, setAnyChange] = useState(false);
 
   useEffect(() => {
     setName(user?.displayName);
@@ -32,16 +35,15 @@ function Profile() {
           )
         );
     }
-    setNumber();
     setEmail(user?.email);
-    setAddress();
   }, [user]);
 
-  const handleInfo = (e) => {
+  const handleInfo = async (e) => {
     user.updateProfile({
       displayName: name,
     });
-    db.collection("users")
+    await db
+      .collection("users")
       .doc(user?.uid)
       .collection("profile")
       .doc("info")
@@ -49,7 +51,16 @@ function Profile() {
         address: address,
         phone: number,
       });
-    // window.location.reload(false);
+    if (user?.email !== email) {
+      await auth
+        .signInWithEmailAndPassword(user?.email, password)
+        .then(function (userCredential) {
+          userCredential.user.updateEmail(email);
+        });
+      await auth.signInWithEmailAndPassword(email, password);
+    }
+
+    window.location.reload(false);
   };
 
   console.log(user);
@@ -91,7 +102,7 @@ function Profile() {
                 style={{ width: "20px", height: "20px", color: "black" }}
               />
             </button>
-
+            <input type="file" id="upload-button" style={{ display: "none" }} />
             <div
               style={{
                 marginTop: "50px",
@@ -112,7 +123,9 @@ function Profile() {
                   style={{ marginLeft: "50px" }}
                   placeholder="UserName"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => (
+                    setName(e.target.value), setAnyChange(true)
+                  )}
                 ></Form.Control>
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -121,7 +134,9 @@ function Profile() {
                   style={{ marginLeft: "50px" }}
                   placeholder="PhoneNumber"
                   value={number}
-                  onChange={(e) => setNumber(e.target.value)}
+                  onChange={(e) => (
+                    setNumber(e.target.value), setAnyChange(true)
+                  )}
                 ></Form.Control>{" "}
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -130,8 +145,21 @@ function Profile() {
                   style={{ marginLeft: "50px" }}
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => (
+                    setEmail(e.target.value),
+                    setShowChange(true),
+                    setAnyChange(true)
+                  )}
                 ></Form.Control>{" "}
+                {showChange && (
+                  <Form.Control
+                    type="password"
+                    style={{ marginLeft: "5px", width: "100px" }}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  ></Form.Control>
+                )}
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <HomeWorkRoundedIcon style={{ fontSize: 40 }} />
@@ -139,11 +167,25 @@ function Profile() {
                   style={{ marginLeft: "50px" }}
                   placeholder="HomeAddress"
                   value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  onChange={(e) => (
+                    setAddress(e.target.value), setAnyChange(true)
+                  )}
                 ></Form.Control>
               </div>
             </div>
-            <Button onClick={handleInfo}>Save</Button>
+            {anyChange && (
+              <Button
+                variant="dark"
+                onClick={handleInfo}
+                style={{
+                  width: "315px",
+                  marginRight: "-90px",
+                  marginTop: "10px",
+                }}
+              >
+                Save
+              </Button>
+            )}
           </center>
         </Jumbotron>
       </div>
