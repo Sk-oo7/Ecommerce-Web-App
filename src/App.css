@@ -1,9 +1,14 @@
-.link {
+.link,
+.linkp {
   color: inherit;
 }
 .link:hover {
   text-decoration: none;
   color: inherit;
+}
+.linkp:hover {
+  text-decoration: none;
+  color: black;
 }
 .badge {
   position: absolute;

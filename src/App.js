@@ -15,6 +15,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import MyOrders from "./MyOrders";
 import Wishlist from "./Wishlist";
 import Footer from "./Footer";
+import Profile from "./Profile";
 
 const promise = loadStripe(
   "pk_test_51HUf2KGbh00gXxRniEIzBZhn9i78igjGOfroFN8x6TldZa89RahUNeKiYue7EJh8v0oVown4wVNFDWCHHjJdALVo00ZhMVRl9l"
@@ -54,6 +55,11 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
+          <Route path="/Profile" exact>
+            <Header />
+            <Profile />
+            <Footer />
+          </Route>
           <Route path="/cart" exact>
             <Header />
             <Cart />

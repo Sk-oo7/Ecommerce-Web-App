@@ -12,7 +12,8 @@ import { useStateValue } from "./StateProvider";
 import Badge from "react-bootstrap/Badge";
 import InputGroup from "react-bootstrap/InputGroup";
 import { auth, db } from "./firebase";
-import { ContactSupportOutlined } from "@material-ui/icons";
+import Avatar from "@material-ui/core/Avatar";
+import "./Header.css";
 
 export default function Header() {
   const [{ Cart, Wishlist, user }, dispach] = useStateValue();
@@ -94,36 +95,114 @@ export default function Header() {
       </Form>
 
       <Nav className="ml-sm-4">
-        <Nav.Link>
-          <Link
-            to={!user && "/SignIn"}
-            className="link"
-            onClick={handleAuthentication}
-          >
+        {!user && (
+          <Nav.Link>
             <div
-              class="log_option"
+              class="log_option dropdown"
               style={{
                 display: "flex",
-                flexDirection: "column",
-                marginTop: "-5px",
+                flexDirection: "row",
+                marginTop: "2px",
               }}
             >
-              {" "}
-              <small
+              <Avatar
+                src=""
+                style={{ height: "30px", width: "30px", marginRight: "5px" }}
+              />
+              <Link
+                to="/SignIn"
+                className="link"
+                onClick={handleAuthentication}
+              >
+                <div
+                  class="log_option"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "-5px",
+                  }}
+                >
+                  {" "}
+                  <small
+                    style={{
+                      marginBottom: "-5px",
+                      color: "whitesmoke",
+                    }}
+                  >
+                    Hello, Guest
+                  </small>
+                  SignIn
+                </div>
+              </Link>
+            </div>
+          </Nav.Link>
+        )}
+
+        {user && (
+          <Nav.Link>
+            <div
+              class="log_option dropdown"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "2px",
+              }}
+            >
+              <Avatar src="" style={{ height: "30px", width: "30px" }} />
+              <div
+                class="log_option"
                 style={{
-                  marginBottom: "-5px",
-                  color: "whitesmoke",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginLeft: "5px",
+                  marginTop: "-5px",
                 }}
               >
-                Hello,{" "}
-                {user
-                  ? `${user?.displayName}`
-                  : `${user?.email ? `${user?.email}` : "Guest"}`}
-              </small>
-              {user ? "Sign Out" : "Sign In"}
+                <small
+                  style={{
+                    marginBottom: "-3px",
+                    color: "lightgray",
+                  }}
+                >
+                  Hello,
+                </small>
+                <strong
+                  style={{
+                    marginTop: "-5px",
+                    color: "whitesmoke",
+                  }}
+                >
+                  {user
+                    ? `${user?.displayName}`.toUpperCase()
+                    : `${
+                        user?.email ? `${user?.email}`.toUpperCase() : "Guest"
+                      }`}
+                </strong>
+              </div>
+              <div className="dropdown-content">
+                <h5
+                  style={{
+                    color: "black",
+
+                    padding: "10px 15px",
+                  }}
+                >
+                  My Account
+                </h5>
+                <Link className="linkp" to="/Profile">
+                  Profile
+                </Link>
+                <Link
+                  to={!user && "/SignIn"}
+                  onClick={handleAuthentication}
+                  className="linkp"
+                >
+                  Sign Out
+                </Link>
+              </div>
             </div>
-          </Link>
-        </Nav.Link>
+          </Nav.Link>
+        )}
 
         <Nav.Link>
           <Link to="/Orders" className="link">
