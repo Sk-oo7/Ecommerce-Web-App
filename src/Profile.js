@@ -174,9 +174,9 @@ function Profile() {
                 ></Form.Control>
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <PhoneIcon style={{ fontSize: 40 }} />
+                <PhoneIcon style={{ fontSize: 40, marginTop: "10px" }} />
                 <Form.Control
-                  style={{ marginLeft: "50px" }}
+                  style={{ marginLeft: "50px", marginTop: "10px" }}
                   placeholder="PhoneNumber"
                   value={number}
                   onChange={(e) => (
@@ -185,9 +185,9 @@ function Profile() {
                 ></Form.Control>{" "}
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <EmailRoundedIcon style={{ fontSize: 40 }} />
+                <EmailRoundedIcon style={{ fontSize: 40, marginTop: "10px" }} />
                 <Form.Control
-                  style={{ marginLeft: "50px" }}
+                  style={{ marginLeft: "50px", marginTop: "10px" }}
                   placeholder="Email"
                   value={email}
                   onChange={(e) => (
@@ -199,7 +199,11 @@ function Profile() {
                 {showChange && (
                   <Form.Control
                     type="password"
-                    style={{ marginLeft: "5px", width: "100px" }}
+                    style={{
+                      marginLeft: "5px",
+                      width: "100px",
+                      marginTop: "10px",
+                    }}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -207,9 +211,11 @@ function Profile() {
                 )}
               </div>
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <HomeWorkRoundedIcon style={{ fontSize: 40 }} />
+                <HomeWorkRoundedIcon
+                  style={{ fontSize: 40, marginTop: "10px" }}
+                />
                 <Form.Control
-                  style={{ marginLeft: "50px" }}
+                  style={{ marginLeft: "50px", marginTop: "10px" }}
                   placeholder="HomeAddress"
                   value={address}
                   onChange={(e) => (

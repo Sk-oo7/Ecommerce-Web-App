@@ -145,7 +145,7 @@ function Footer() {
               href="https://github.com/Sk-oo7"
               style={{ color: "rgb(194, 191, 191)" }}
             >
-              <GitHubIcon fontSize="large" />
+              <GitHubIcon style={{ fontSize: 29 }} />
             </a>{" "}
             <a
               href="https://www.facebook.com/shubham.khullar.33/"

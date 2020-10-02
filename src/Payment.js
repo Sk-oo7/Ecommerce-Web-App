@@ -23,6 +23,8 @@ function Payment() {
   const [cart, setcart] = useState([]);
   const [total, setTotal] = useState(0);
   const [guest, setGuest] = useStateValue();
+  const [number, setNumber] = useState();
+  const [address, setAddress] = useState();
 
   const getCartTotal = () => {
     return total;
@@ -38,6 +40,18 @@ function Payment() {
             snapshot.docs.map((doc) => ({
               data: doc.data(),
             }))
+          )
+        );
+    }
+    if (user) {
+      db.collection("users")
+        .doc(user?.uid)
+        .collection("profile")
+        .onSnapshot((snapshot) =>
+          snapshot.docs.map(
+            (doc) => (
+              setNumber(doc.data().phone), setAddress(doc.data().address)
+            )
           )
         );
     }
@@ -131,10 +145,6 @@ function Payment() {
         setError(null);
         setProcessing(false);
 
-        // dispach({
-        //   type: "EMPTY_CART",
-        // });
-
         if (user) {
           db.collection("users")
             .doc(user?.uid)
@@ -164,96 +174,98 @@ function Payment() {
     setError(event.error ? event.error.message : "");
   };
 
-  return (
-    <div className="payment">
-      <div className="payment_container">
-        <h1>
-          Checkout (<Link to="/Cart">{cart?.length} items</Link>)
-        </h1>
-        <div className="payment_section">
-          <div className="payment_title">
-            <h3>Delivery Address</h3>
+  if (user)
+    return (
+      <div className="payment">
+        <div className="payment_container">
+          <h1>
+            Checkout (<Link to="/Cart">{cart?.length} items</Link>)
+          </h1>
+          <div className="payment_section">
+            <div className="payment_title">
+              <h3>Delivery Address</h3>
+            </div>
+            <div className="payment_address">
+              <p>{user?.displayName}</p>
+              <p>{user?.email}</p>
+              <p>{number}</p>
+              <p>{address}</p>
+            </div>
           </div>
-          <div className="payment_address">
-            <p>{user?.displayName}</p>
-            <p>{user?.email}</p>
-            <p>Nangal, Jawahar Market</p>
-            <p>Punjab, India</p>
+
+          <div className="payment_section">
+            <div className="payment_title">
+              <h3>Review Items and Delivery</h3>
+            </div>
+            <div className="payment_items">
+              {cart.map((item) => (
+                <CartProduct
+                  id={item.data.id}
+                  title={item.data.title}
+                  pic={item.data.pic}
+                  price={item.data.price}
+                  rating={item.data.rating}
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="payment_section">
-          <div className="payment_title">
-            <h3>Review Items and Delivery</h3>
-          </div>
-          <div className="payment_items">
-            {cart.map((item) => (
-              <CartProduct
-                id={item.data.id}
-                title={item.data.title}
-                pic={item.data.pic}
-                price={item.data.price}
-                rating={item.data.rating}
-              />
-            ))}
-          </div>
-        </div>
+          <div className="payment_section">
+            <div className="payment_title">
+              <h3>Payment Method</h3>
+            </div>
+            <div className="payment_details">
+              <form onSubmit={handleSubmit}>
+                <CardElement onChange={handleChange} />
 
-        <div className="payment_section">
-          <div className="payment_title">
-            <h3>Payment Method</h3>
-          </div>
-          <div className="payment_details">
-            <form onSubmit={handleSubmit}>
-              <CardElement onChange={handleChange} />
+                {cart?.length !== 0 && (
+                  <div className="payment_priceContainer">
+                    <CurrencyFormat
+                      renderText={(value) => <h3>Order Total: {value} </h3>}
+                      decimalScale={2}
+                      value={total}
+                      displayType={"text"}
+                      thousandSpacing={"2s"}
+                      prefix={"₹"}
+                    />
+                    <Button
+                      type="submit"
+                      variant="warning"
+                      disabled={processing || disabled || succeeded}
+                    >
+                      <span>
+                        {processing ? <p>Processing</p> : "Place Order"}
+                      </span>
+                    </Button>
+                  </div>
+                )}
 
-              {cart?.length !== 0 && (
-                <div className="payment_priceContainer">
-                  <CurrencyFormat
-                    renderText={(value) => <h3>Order Total: {value} </h3>}
-                    decimalScale={2}
-                    value={total}
-                    displayType={"text"}
-                    thousandSpacing={"2s"}
-                    prefix={"₹"}
-                  />
-                  <Button
-                    type="submit"
-                    variant="warning"
-                    disabled={processing || disabled || succeeded}
-                  >
-                    <span>
-                      {processing ? <p>Processing</p> : "Place Order"}
-                    </span>
-                  </Button>
-                </div>
-              )}
+                {cart?.length === 0 && (
+                  <div className="payment_priceContainer">
+                    <CurrencyFormat
+                      renderText={(value) => <h3>Order Total: {value} </h3>}
+                      decimalScale={2}
+                      value={0}
+                      displayType={"text"}
+                      thousandSpacing={"2s"}
+                      prefix={"₹"}
+                    />
+                    <Button type="submit" variant="warning" disabled={true}>
+                      <span>
+                        {processing ? <p>Processing</p> : "Place Order"}
+                      </span>
+                    </Button>
+                  </div>
+                )}
 
-              {cart?.length === 0 && (
-                <div className="payment_priceContainer">
-                  <CurrencyFormat
-                    renderText={(value) => <h3>Order Total: {value} </h3>}
-                    decimalScale={2}
-                    value={0}
-                    displayType={"text"}
-                    thousandSpacing={"2s"}
-                    prefix={"₹"}
-                  />
-                  <Button type="submit" variant="warning" disabled={true}>
-                    <span>
-                      {processing ? <p>Processing</p> : "Place Order"}
-                    </span>
-                  </Button>
-                </div>
-              )}
-
-              <div>{error && <div>{error}</div>}</div>
-            </form>
+                <div>{error && <div>{error}</div>}</div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  else return "";
 }
 
 export default Payment;
