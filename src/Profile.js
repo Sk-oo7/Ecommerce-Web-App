@@ -8,8 +8,9 @@ import HomeWorkRoundedIcon from "@material-ui/icons/HomeWorkRounded";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import EmailRoundedIcon from "@material-ui/icons/EmailRounded";
-import { Button, Form, FormControl } from "react-bootstrap";
-import { auth, db } from "./firebase";
+import { Button, Form, FormControl, Modal } from "react-bootstrap";
+import { auth, db, storage } from "./firebase";
+import { CloseOutlined } from "@material-ui/icons";
 
 function Profile() {
   const [{ Cart, Wishlist, user }, dispach] = useStateValue();
@@ -20,6 +21,14 @@ function Profile() {
   const [password, setPassword] = useState();
   const [showChange, setShowChange] = useState(false);
   const [anyChange, setAnyChange] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [Img, setImg] = useState();
+  const [url, setUrl] = useState();
+
+  const handleImg = async (e) => {
+    await storage.ref(`images/${user?.uid}`).put(e.target.files[0]);
+    await window.location.reload(false);
+  };
 
   useEffect(() => {
     setName(user?.displayName);
@@ -34,6 +43,13 @@ function Profile() {
             )
           )
         );
+      storage
+        .ref("images")
+        .child(user?.uid)
+        .getDownloadURL()
+        .then((url) => {
+          setUrl(url);
+        });
     }
     setEmail(user?.email);
   }, [user]);
@@ -62,8 +78,6 @@ function Profile() {
 
     window.location.reload(false);
   };
-
-  console.log(user);
   if (user) {
     return (
       <div
@@ -82,8 +96,7 @@ function Profile() {
           }}
         >
           <center>
-            <Avatar src="" style={{ height: "200px", width: "200px" }} />
-
+            <Avatar src={url} style={{ height: "200px", width: "200px" }} />
             <button
               className="cam"
               style={{
@@ -97,12 +110,44 @@ function Profile() {
                 outline: "none",
                 width: "31px",
               }}
+              disabled
             >
-              <CameraAltRoundedIcon
-                style={{ width: "20px", height: "20px", color: "black" }}
-              />
+              <label htmlFor="file" style={{ width: "20px", height: "20px" }}>
+                <CameraAltRoundedIcon
+                  style={{ width: "20px", height: "20px", color: "black" }}
+                />
+              </label>
             </button>
-            <input type="file" id="upload-button" style={{ display: "none" }} />
+            <input
+              type="file"
+              id="file"
+              className="file"
+              style={{ display: "none" }}
+              onChange={handleImg}
+            />
+            <Modal
+              show={showModal}
+              aria-labelledby="contained-modal-title-vcenter"
+              as="section"
+              centered
+              className="modal"
+              size="md"
+              restoreFocus={true}
+            >
+              <Modal.Body>
+                <div
+                  className="cartProduct-card"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "white",
+                    display: "flex",
+                    marginBottom: "20px",
+                  }}
+                >
+                  hi
+                </div>
+              </Modal.Body>
+            </Modal>
             <div
               style={{
                 marginTop: "50px",

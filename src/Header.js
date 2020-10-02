@@ -11,7 +11,7 @@ import Link from "react-router-dom/Link";
 import { useStateValue } from "./StateProvider";
 import Badge from "react-bootstrap/Badge";
 import InputGroup from "react-bootstrap/InputGroup";
-import { auth, db } from "./firebase";
+import { auth, db, storage } from "./firebase";
 import Avatar from "@material-ui/core/Avatar";
 import "./Header.css";
 
@@ -21,6 +21,7 @@ export default function Header() {
   const [listSize, setlistSize] = useState(0);
   const [cartSize, setCartSize] = useState(0);
   const [guest, setGuest] = useStateValue();
+  const [url, setUrl] = useState();
   console.log(cartSize);
 
   useEffect(() => {
@@ -50,6 +51,16 @@ export default function Header() {
         .doc(user?.uid)
         .collection("Cart")
         .onSnapshot((snapshot) => setCartSize(snapshot.size));
+    }
+    if (user) {
+      storage
+        .ref("images")
+        .child(user?.uid)
+        .getDownloadURL()
+        .then((url) => {
+          setUrl(url);
+          console.log(url);
+        });
     }
   }, [user]);
 
@@ -148,7 +159,7 @@ export default function Header() {
                 marginTop: "2px",
               }}
             >
-              <Avatar src="" style={{ height: "30px", width: "30px" }} />
+              <Avatar src={url} style={{ height: "30px", width: "30px" }} />
               <div
                 class="log_option"
                 style={{
