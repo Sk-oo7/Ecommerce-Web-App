@@ -179,17 +179,29 @@ function Payment() {
       <div className="payment">
         <div className="payment_container">
           <h1>
-            Checkout (<Link to="/Cart">{cart?.length} items</Link>)
+            Checkout (
+            <Link className="itms" to="/Cart">
+              {cart?.length} items
+            </Link>
+            )
           </h1>
           <div className="payment_section">
             <div className="payment_title">
               <h3>Delivery Address</h3>
             </div>
             <div className="payment_address">
-              <p>{user?.displayName}</p>
-              <p>{user?.email}</p>
-              <p>{number}</p>
-              <p>{address}</p>
+              <h5>{user?.displayName}</h5>
+              <h5>{user?.email}</h5>
+              <h5>{number}</h5>
+              <h5>{address}</h5>
+
+              {(!user?.displayName || !number || !address) && (
+                <Link to="/Profile">
+                  <Button variant="outline-secondary">
+                    Complete your profile
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -210,58 +222,60 @@ function Payment() {
             </div>
           </div>
 
-          <div className="payment_section">
-            <div className="payment_title">
-              <h3>Payment Method</h3>
+          {user?.displayName && number && address && (
+            <div className="payment_section">
+              <div className="payment_title">
+                <h3>Payment Method</h3>
+              </div>
+              <div className="payment_details">
+                <form onSubmit={handleSubmit}>
+                  <CardElement onChange={handleChange} />
+
+                  {cart?.length !== 0 && (
+                    <div className="payment_priceContainer">
+                      <CurrencyFormat
+                        renderText={(value) => <h3>Order Total: {value} </h3>}
+                        decimalScale={2}
+                        value={total}
+                        displayType={"text"}
+                        thousandSpacing={"2s"}
+                        prefix={"₹"}
+                      />
+                      <Button
+                        type="submit"
+                        variant="warning"
+                        disabled={processing || disabled || succeeded}
+                      >
+                        <span>
+                          {processing ? <p>Processing</p> : "Place Order"}
+                        </span>
+                      </Button>
+                    </div>
+                  )}
+
+                  {cart?.length === 0 && (
+                    <div className="payment_priceContainer">
+                      <CurrencyFormat
+                        renderText={(value) => <h3>Order Total: {value} </h3>}
+                        decimalScale={2}
+                        value={0}
+                        displayType={"text"}
+                        thousandSpacing={"2s"}
+                        prefix={"₹"}
+                      />
+                      <Button type="submit" variant="warning" disabled={true}>
+                        <span>
+                          {processing ? <p>Processing</p> : "Place Order"}
+                        </span>
+                      </Button>
+                    </div>
+                  )}
+
+                  <div>{error && <div>{error}</div>}</div>
+                </form>
+              </div>
             </div>
-            <div className="payment_details">
-              <form onSubmit={handleSubmit}>
-                <CardElement onChange={handleChange} />
-
-                {cart?.length !== 0 && (
-                  <div className="payment_priceContainer">
-                    <CurrencyFormat
-                      renderText={(value) => <h3>Order Total: {value} </h3>}
-                      decimalScale={2}
-                      value={total}
-                      displayType={"text"}
-                      thousandSpacing={"2s"}
-                      prefix={"₹"}
-                    />
-                    <Button
-                      type="submit"
-                      variant="warning"
-                      disabled={processing || disabled || succeeded}
-                    >
-                      <span>
-                        {processing ? <p>Processing</p> : "Place Order"}
-                      </span>
-                    </Button>
-                  </div>
-                )}
-
-                {cart?.length === 0 && (
-                  <div className="payment_priceContainer">
-                    <CurrencyFormat
-                      renderText={(value) => <h3>Order Total: {value} </h3>}
-                      decimalScale={2}
-                      value={0}
-                      displayType={"text"}
-                      thousandSpacing={"2s"}
-                      prefix={"₹"}
-                    />
-                    <Button type="submit" variant="warning" disabled={true}>
-                      <span>
-                        {processing ? <p>Processing</p> : "Place Order"}
-                      </span>
-                    </Button>
-                  </div>
-                )}
-
-                <div>{error && <div>{error}</div>}</div>
-              </form>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     );

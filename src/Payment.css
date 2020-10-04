@@ -36,3 +36,12 @@
 .payment_details > h3 {
   padding-bottom: 20px;
 }
+h5 {
+  color: rgb(94, 94, 94);
+}
+.itms:hover {
+  color: lightgray;
+}
+.itms {
+  color: gray;
+}

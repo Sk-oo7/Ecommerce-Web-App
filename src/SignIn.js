@@ -11,7 +11,7 @@ import {
 import "./SignIn.css";
 import Logo from "./logo.png";
 import { auth } from "./firebase";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function SignIn() {
   const history = useHistory();
@@ -131,18 +131,30 @@ function SignIn() {
               )}
 
               {!toggle && (
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "0",
-                    bottom: "10px",
-                    display: "flex",
-                  }}
-                >
-                  <div style={{ paddingTop: "7px" }}>New to Buy-Aura?</div>
-                  <Button variant="link" onClick={() => changeToggle(true)}>
-                    SignUp
-                  </Button>
+                <div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: "5",
+                      bottom: "15px",
+                      display: "flex",
+                    }}
+                  >
+                    <Link to="/seller">Sell on Buy-Aura</Link>
+                  </div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: "0",
+                      bottom: "10px",
+                      display: "flex",
+                    }}
+                  >
+                    <div style={{ paddingTop: "7px" }}>New to Buy-Aura?</div>
+                    <Button variant="link" onClick={() => changeToggle(true)}>
+                      SignUp
+                    </Button>
+                  </div>
                 </div>
               )}
               {toggle && (
