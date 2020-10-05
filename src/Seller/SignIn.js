@@ -26,7 +26,7 @@ function SignIn() {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
-        history.push("/");
+        history.push("/seller");
         window.location.reload(false);
       })
       .catch((error) => alert(error.message));

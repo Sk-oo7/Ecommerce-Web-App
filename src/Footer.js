@@ -15,10 +15,12 @@ import EmailIcon from "@material-ui/icons/Email";
 import { db } from "./firebase";
 import { Link } from "react-router-dom";
 import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import { useStateValue } from "./StateProvider";
 
 function Footer() {
   const [Email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [{ user }, dispach] = useStateValue();
 
   const handleMessage = (e) => {
     e.preventDefault();
@@ -91,7 +93,8 @@ function Footer() {
               <Row>
                 <AccountBalanceRoundedIcon style={{ marginLeft: "60px" }} />
                 <h7>
-                  <Link to="/seller">Sell on Buy-Aura</Link>
+                  {user && <Link to="/seller">Sell on Buy-Aura</Link>}
+                  {!user && <Link to="/seller/SignIn">Sell on Buy-Aura</Link>}
                 </h7>
               </Row>
             </center>

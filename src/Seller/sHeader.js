@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import Logo from "./Assets/logo.png";
 import SearchIcon from "@material-ui/icons/Search";
+import { auth } from "../firebase";
 
 function Header() {
   const [{ user }, dispach] = useStateValue();
@@ -12,6 +13,13 @@ function Header() {
   const history = useHistory();
 
   const [search, setSearch] = useStateValue();
+
+  const handleAuthentication = () => {
+    if (user) {
+      auth.signOut();
+      window.location.reload(false);
+    }
+  };
 
   return (
     <div>
@@ -21,6 +29,24 @@ function Header() {
             <img src={Logo} alt="website logo" height="50"></img>
           </Link>
         </Navbar.Brand>
+        <Nav className="ml-sm-4" style={{ paddingLeft: "300px" }}>
+          <Nav.Link>
+            <Link to="/seller/Catalogue" className="link">
+              Catalogue
+            </Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link to="/seller/Orders" className="link">
+              Orders
+            </Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link to="/seller/Messages" className="link">
+              Messages
+            </Link>
+          </Nav.Link>
+        </Nav>
+
         <Form inline className="ml-auto search_inp">
           <InputGroup className="formInput search_inp">
             <InputGroup.Prepend>
@@ -133,12 +159,12 @@ function Header() {
                   >
                     My Account
                   </h5>
-                  <Link className="linkp" to="/Profile">
+                  <Link className="linkp" to="/seller/Profile">
                     Profile
                   </Link>
                   <Link
-                    to={!user && "/SignIn"}
-                    // onClick={handleAuthentication}
+                    to={!user && "/seller/SignIn"}
+                    onClick={handleAuthentication}
                     className="linkp"
                   >
                     Sign Out

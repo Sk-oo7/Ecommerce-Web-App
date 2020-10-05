@@ -14,6 +14,18 @@ function Seller() {
           <Route path="/seller/SignIn" exact>
             <SignIn />
           </Route>
+          <Route path="/seller/Catalogue" exact>
+            <Header />
+          </Route>
+          <Route path="/seller/Profile" exact>
+            <Header />
+          </Route>
+          <Route path="/seller/Orders" exact>
+            <Header />
+          </Route>
+          <Route path="/seller/Messages" exact>
+            <Header />
+          </Route>
         </Switch>
       </Router>
     </div>
