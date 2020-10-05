@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Footer from "./Footer";
+import Profile from "./Profile";
 import Header from "./sHeader";
 import SignIn from "./SignIn.js";
 
@@ -22,6 +23,7 @@ function Seller() {
           </Route>
           <Route path="/seller/Profile" exact>
             <Header />
+            <Profile />
             <Footer />
           </Route>
           <Route path="/seller/Orders" exact>

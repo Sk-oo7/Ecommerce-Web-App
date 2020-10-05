@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import "./SignIn.css";
 import Logo from "./Assets/logo.png";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { Link, useHistory } from "react-router-dom";
 
 function SignIn() {
@@ -45,11 +45,21 @@ function SignIn() {
           displayName: username,
         });
       })
+      .then(function () {
+        db.collection("sellers")
+          .doc(user?.uid)
+          .collection("profile")
+          .doc("info")
+          .set({
+            gst: gst,
+          });
+      })
       .then((auth) => {
         if (auth) {
-          history.push("/");
+          history.push("/seller");
         }
       })
+
       .catch((error) => alert(error.message));
     if (user !== null) changeToggle(false);
   };

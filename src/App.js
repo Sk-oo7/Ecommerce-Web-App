@@ -33,7 +33,6 @@ function App() {
           type: "SET_USER",
           user: authUser,
         });
-        console.log("user", authUser);
       } else {
         fetch(
           "https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91"

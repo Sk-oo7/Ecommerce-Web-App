@@ -1,11 +1,11 @@
 import { Avatar } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, FormControl, InputGroup, Nav, Navbar } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import Logo from "./Assets/logo.png";
 import SearchIcon from "@material-ui/icons/Search";
-import { auth } from "../firebase";
+import { auth, storage } from "../firebase";
 
 function Header() {
   const [{ user }, dispach] = useStateValue();
@@ -13,6 +13,19 @@ function Header() {
   const history = useHistory();
 
   const [search, setSearch] = useStateValue();
+
+  useEffect(() => {
+    if (user) {
+      storage
+        .ref("images")
+        .child(user?.uid)
+        .getDownloadURL()
+        .then((url) => {
+          setUrl(url);
+          console.log(url);
+        });
+    }
+  }, [user]);
 
   const handleAuthentication = () => {
     if (user) {
