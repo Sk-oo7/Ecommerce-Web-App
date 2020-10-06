@@ -89,7 +89,7 @@ export default function Header() {
       </Navbar.Brand>
 
       <Form inline className="ml-auto search_inp">
-        <InputGroup className="formInput search_inp">
+        <InputGroup className="formInput search_inp" style={{ width: "700px" }}>
           <InputGroup.Prepend>
             <InputGroup.Text>
               <SearchIcon />
@@ -105,7 +105,7 @@ export default function Header() {
         </InputGroup>
       </Form>
 
-      <Nav className="ml-sm-4">
+      <Nav className="ml-sm-4" style={{ paddingLeft: "20px" }}>
         {!user && (
           <Nav.Link>
             <div
@@ -215,13 +215,13 @@ export default function Header() {
           </Nav.Link>
         )}
 
-        <Nav.Link>
+        <Nav.Link style={{ paddingLeft: "20px" }}>
           <Link to="/Orders" className="link">
             My Orders
           </Link>
         </Nav.Link>
 
-        <Nav.Link>
+        <Nav.Link style={{ paddingLeft: "20px" }}>
           <Link to="/Wishlist" className="link">
             <div className="wishListIcon">
               <LoyaltySharpIcon />
@@ -234,7 +234,7 @@ export default function Header() {
             </div>
           </Link>
         </Nav.Link>
-        <Nav.Link>
+        <Nav.Link style={{ paddingLeft: "20px" }}>
           <Link to="/Cart" className="link">
             <ShoppingCartSharpIcon />
             {cartSize > 0 && (

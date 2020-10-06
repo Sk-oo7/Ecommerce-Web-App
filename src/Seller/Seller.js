@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Catalogue from "./Catalogue";
 import Footer from "./Footer";
 import Profile from "./Profile";
 import Header from "./sHeader";
@@ -19,6 +20,7 @@ function Seller() {
           </Route>
           <Route path="/seller/Catalogue" exact>
             <Header />
+            <Catalogue />
             <Footer />
           </Route>
           <Route path="/seller/Profile" exact>
@@ -30,7 +32,7 @@ function Seller() {
             <Header />
             <Footer />
           </Route>
-          <Route path="/seller/Messages" exact>
+          <Route path="/seller/Inventory" exact>
             <Header />
             <Footer />
           </Route>
