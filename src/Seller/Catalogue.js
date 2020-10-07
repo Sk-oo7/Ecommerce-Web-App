@@ -1,4 +1,3 @@
-import { SendTwoTone } from "@material-ui/icons";
 import React, { useState } from "react";
 import {
   Button,
@@ -6,15 +5,18 @@ import {
   Col,
   Form,
   Jumbotron,
+  Modal,
   OverlayTrigger,
   Row,
   Tab,
   Tabs,
   Tooltip,
 } from "react-bootstrap";
-import { storage } from "../firebase";
+import { db, storage } from "../firebase";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
+import { useStateValue } from "../StateProvider";
+import SearchedItems from "./SearchedItems.js";
 
 function Catalogue() {
   const [category, setCategory] = useState();
@@ -27,16 +29,49 @@ function Catalogue() {
   const [nPrice, setNPrice] = useState();
   const [maxPrice, setMaxPrice] = useState();
   const [preview, setPreview] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [user] = useStateValue();
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState();
 
-  const handleImg = async (e) => {
+  const handleImg = (e) => {
     SetDone(true);
     setImg(e.target.files[0]);
     setImgname(e.target.files[0].name);
     setPreview(URL.createObjectURL(e.target.files[0]));
-    // await storage.ref(`products/${category}`).put(e.target.files[0]);
-    // await window.location.reload(false);
   };
 
+  const handleProduct = async (e) => {
+    e.preventDefault();
+    if (user) {
+      await db.collection("products").add({
+        id: id,
+        nPrice: nPrice,
+        title: title,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        usePrice: "nPrice",
+        category: category,
+      });
+      await storage.ref(`products/${category.toLowerCase()}/${id}`).put(img);
+      await window.location.reload(false);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (user) {
+      db.collection("products").onSnapshot((snapshot) => {
+        snapshot.docs.map((doc) => {
+          if (
+            doc.data().title.toLowerCase().indexOf(search.toLowerCase()) !== -1
+          )
+            setProducts(doc.data());
+        });
+      });
+    }
+  };
+  console.log(products);
   return (
     <div
       style={{
@@ -57,11 +92,23 @@ function Catalogue() {
           <Col style={{ borderRight: "1px solid black" }}>
             <h3>List an existing product</h3>
             <Form style={{ display: "flex" }}>
-              <Form.Control type="text" placeholder="product name" />
-              <Button type="submit" variant="warning">
+              <Form.Control
+                type="text"
+                placeholder="product name"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button
+                type="submit"
+                variant="warning"
+                onClick={handleSearch}
+                value={search}
+              >
                 Seacrh
               </Button>
             </Form>
+            {/* {products.map((product) => ( */}
+            <SearchedItems product={products} />
+            {/* ))} */}
           </Col>
           <Col>
             <h3>List an new product</h3>
@@ -73,7 +120,7 @@ function Catalogue() {
                 borderRadius: "5px",
               }}
             >
-              <Tabs defaultActiveKey="details" id="uncontrolled-tab-example">
+              <Tabs defaultActiveKey="" id="uncontrolled-tab-example">
                 <Tab
                   eventKey="details"
                   title="Product Details"
@@ -270,59 +317,97 @@ function Catalogue() {
                   title="Finish"
                   style={{ height: "40vh" }}
                 >
-                  <h6 style={{ marginTop: "10px" }}>Preview your product</h6>
-                  {/* <Card
-                    style={{
-                      width: "340px",
-                      margin: "20px 20px 20px 20px",
-                    }}
+                  <h6 style={{ marginTop: "10px", marginBottom: "20px" }}>
+                    Preview your product
+                  </h6>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => setShowModal(true)}
                   >
-                    <center>
-                      <Card.Img
-                        className="ProductItem_img"
-                        variant="top"
-                        src={preview}
+                    Preview
+                  </Button>
+                  <br />
+
+                  <Button
+                    disabled={
+                      !category ||
+                      !title ||
+                      !id ||
+                      !img ||
+                      !nPrice ||
+                      !maxPrice ||
+                      !minPrice
+                    }
+                    variant="outline-success"
+                    style={{ marginTop: "10px" }}
+                    onClick={handleProduct}
+                  >
+                    Submit Product
+                  </Button>
+                  <Modal
+                    show={showModal}
+                    aria-labelledby="contained-modal-title-vcenter"
+                    as="section"
+                    centered
+                    size="md"
+                    restoreFocus={true}
+                    style={{ opacity: "1" }}
+                  >
+                    <Modal.Header
+                      closeButton
+                      onClick={() => setShowModal(false)}
+                    >
+                      <Modal.Title>Your product will look like</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Card
                         style={{
-                          maxHeight: "220px",
-                          overflow: "hidden",
-                          objectFit: "cover",
+                          margin: "20px 20px 20px 20px",
                         }}
-                      />
-                    </center>
-                    <Card.Body>
-                      <Card.Title className="ProductItem_title">
-                        {title}
-                      </Card.Title>
-                      <Card.Text>
-                        <div
-                          className="ProductItem_price"
-                          style={{ position: "absolute", bottom: "16vh" }}
-                        >
-                          ₹<strong className="price">{nPrice}</strong>
-                        </div>
-                        <div className="ProductItem_rating">
-                          {Array(5)
-                            .fill()
-                            .map((_, i) => (
-                              <p>
-                                <span role="img" aria-label="ratingStar">
-                                  ⭐
-                                </span>
-                              </p>
-                            ))}
-                        </div>
-                      </Card.Text>
-                      <div className="ActionButtons">
-                        <Button variant="warning">Add to Cart</Button>
-                        <Button variant="danger" style={{ marginLeft: "20px" }}>
-                          <small>
-                            <FavoriteRoundedIcon />
-                          </small>{" "}
-                          Add to WishList
-                        </Button>
-                      </div>
-                    </Card.Body>
-                  </Card> */}
+                      >
+                        <center>
+                          <Card.Img
+                            className="ProductItem_img"
+                            variant="top"
+                            src={preview}
+                          />
+                        </center>
+                        <Card.Body>
+                          <Card.Title className="ProductItem_title">
+                            {title}
+                          </Card.Title>
+                          <Card.Text>
+                            <div className="ProductItem_price">
+                              ₹<strong className="price">{nPrice}</strong>
+                            </div>
+                            <div className="ProductItem_rating">
+                              {Array(5)
+                                .fill()
+                                .map((_, i) => (
+                                  <p>
+                                    <span role="img" aria-label="ratingStar">
+                                      ⭐
+                                    </span>
+                                  </p>
+                                ))}
+                            </div>
+                          </Card.Text>
+                          <div className="ActionButtons">
+                            <Button variant="warning">Add to Cart</Button>
+                            <Button
+                              variant="danger"
+                              style={{ marginLeft: "20px" }}
+                            >
+                              <small>
+                                <FavoriteRoundedIcon />
+                              </small>{" "}
+                              Add to WishList
+                            </Button>
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Modal.Body>
+                  </Modal>
                 </Tab>
               </Tabs>
             </div>
