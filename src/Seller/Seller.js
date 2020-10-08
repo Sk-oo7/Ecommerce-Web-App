@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Catalogue from "./Catalogue";
 import Footer from "./Footer";
+import Inventory from "./Inventory";
 import Profile from "./Profile";
 import Header from "./sHeader";
 import SignIn from "./SignIn.js";
@@ -34,6 +35,7 @@ function Seller() {
           </Route>
           <Route path="/seller/Inventory" exact>
             <Header />
+            <Inventory />
             <Footer />
           </Route>
         </Switch>

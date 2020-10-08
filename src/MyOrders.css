@@ -1,7 +1,9 @@
-.orders > h1 {
+.orders > h1,
+.products > h1 {
   padding: 10px 0;
   text-align: center;
 }
-.orders {
+.orders,
+.products {
   background-color: white;
 }
