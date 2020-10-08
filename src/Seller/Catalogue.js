@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -30,9 +30,16 @@ function Catalogue() {
   const [maxPrice, setMaxPrice] = useState();
   const [preview, setPreview] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [user] = useStateValue();
+  const [{ user }] = useStateValue();
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState();
+  const [eSearch, setEsearch] = useState();
+
+  useEffect(() => {
+    if (search == "") {
+      setEsearch("");
+    }
+  }, [search]);
 
   const handleImg = (e) => {
     SetDone(true);
@@ -56,22 +63,32 @@ function Catalogue() {
       await storage.ref(`products/${category.toLowerCase()}/${id}`).put(img);
       await window.location.reload(false);
     }
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (user) {
-      db.collection("products").onSnapshot((snapshot) => {
-        snapshot.docs.map((doc) => {
-          if (
-            doc.data().title.toLowerCase().indexOf(search.toLowerCase()) !== -1
-          )
-            setProducts(doc.data());
-        });
+    if (user?.uid) {
+      await db.collection("sellers").doc(user.uid).collection("products").add({
+        id: id,
+        nPrice: nPrice,
+        title: title,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        usePrice: "nPrice",
+        category: category,
       });
     }
   };
-  console.log(products);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setProducts([]);
+    if (user) {
+      await db.collection("products").onSnapshot((snapshot) => {
+        snapshot.docs.map((doc) => {
+          setProducts((products) => products.concat(doc.data()));
+        });
+      });
+      setEsearch(search);
+    }
+  };
+
   return (
     <div
       style={{
@@ -95,20 +112,30 @@ function Catalogue() {
               <Form.Control
                 type="text"
                 placeholder="product name"
+                value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button
-                type="submit"
-                variant="warning"
-                onClick={handleSearch}
-                value={search}
-              >
-                Seacrh
-              </Button>
+              {search && (
+                <Button type="submit" variant="warning" onClick={handleSearch}>
+                  Search
+                </Button>
+              )}
+              {!search && (
+                <Button
+                  type="submit"
+                  variant="warning"
+                  onClick={handleSearch}
+                  disabled
+                >
+                  Search
+                </Button>
+              )}
             </Form>
-            {/* {products.map((product) => ( */}
-            <SearchedItems product={products} />
-            {/* ))} */}
+            <div>
+              {products?.map((product) => (
+                <SearchedItems product={product} search={eSearch} />
+              ))}
+            </div>
           </Col>
           <Col>
             <h3>List an new product</h3>

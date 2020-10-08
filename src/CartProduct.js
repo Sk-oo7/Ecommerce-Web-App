@@ -178,39 +178,6 @@ function CartProduct({
         )}
       </div>
     </div>
-
-    // <Card
-    //   className="cartProduct-card"
-    //   style={{
-    //     width: "200px",
-    //     margin: "20px 20px 20px 20px",
-    //   }}
-    // >
-    //   <Card.Img className="ProductItem_img" src={pic} />
-    //   <Card.Body>
-    //     <Card.Title className="ProductItem_title">{title}</Card.Title>
-    //     <Card.Text>
-    //       <div className="ProductItem_price">
-    //         ₹<strong className="price">{price}</strong>
-    //       </div>
-    //       <div className="ProductItem_rating">
-    //         {Array(rating)
-    //           .fill()
-    //           .map((_, i) => (
-    //             <p>
-    //               <span role="img" aria-label="ratingStar">
-    //                 ⭐
-    //               </span>
-    //             </p>
-    //           ))}
-    //       </div>
-    //     </Card.Text>
-
-    //     <Button variant="danger" onClick={removeFromCart}>
-    //       Remove from Cart
-    //     </Button>
-    //   </Card.Body>
-    // </Card>
   );
 }
 

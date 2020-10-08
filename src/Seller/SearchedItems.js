@@ -1,21 +1,35 @@
-import React from "react";
-import CartProduct from "../CartProduct";
+import React, { useEffect, useState } from "react";
+import { storage } from "../firebase";
+import DisplayProduct from "./DisplayProduct";
 
-function SearchedItems({ product }) {
-  return (
-    <div>
-      {/* {prod.data.Cart?.map((item) => ( */}
-      <CartProduct
-        id={product.id}
-        title={product.title}
-        pic={product.pic}
-        price={product.nPrice}
-        rating={5}
-        hideButton
-      />
-      {/* ))} */}
-    </div>
-  );
+function SearchedItems({ product, search }) {
+  const [url, setUrl] = useState();
+
+  useEffect(() => {
+    async function loadImg() {
+      await storage
+        .ref(`products/${product.category.toLowerCase()}/${product.id}`)
+        .getDownloadURL()
+        .then((url) => {
+          setUrl(url);
+        });
+    }
+    loadImg();
+  }, []);
+  if (search === "" || search === " ") return "";
+  else if (product.title.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+    return (
+      <div style={{ height: "70px", marginTop: "30px" }} hide={!product}>
+        <DisplayProduct
+          id={product.id}
+          title={product.title}
+          pic={url}
+          price={product.nPrice}
+          rating={0}
+        />
+      </div>
+    );
+  else return "";
 }
 
 export default SearchedItems;
