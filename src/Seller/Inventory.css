@@ -1,0 +1,23 @@
+.products {
+  background-color: white;
+}
+.products > h1 {
+  padding: 10px 0;
+  text-align: center;
+}
+.products_back {
+  border-top: 1px solid lightgrey;
+  background-color: whitesmoke;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.product_details {
+  padding: 40px 20px 20px 20px;
+}
+.Inventory_buttons {
+  display: inline-flex;
+  justify-content: space-between;
+}
+.Products_button {
+  margin: 10px;
+}

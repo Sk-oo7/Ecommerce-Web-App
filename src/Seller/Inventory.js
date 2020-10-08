@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import InventoryProduct from "./InventoryProduct";
 import { useStateValue } from "../StateProvider";
+import "./Inventory.css";
 
 function Inventory() {
   const [{ user }] = useStateValue();
@@ -23,10 +24,12 @@ function Inventory() {
     <div>
       <div className="products">
         <h1>Your Products</h1>
-        <div className="products_product">
-          {products?.map((product) => (
-            <InventoryProduct product={product} />
-          ))}
+        <div className="products_back">
+          <div className="products_product">
+            {products?.map((product) => (
+              <InventoryProduct product={product} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
