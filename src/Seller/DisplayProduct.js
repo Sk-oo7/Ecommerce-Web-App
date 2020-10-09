@@ -62,6 +62,7 @@ const [category, setCategory] = useState();
         maxPrice: maxPrice,
         usePrice: "nPrice",
         category: category,
+        seller :user?.uid,
       });
       await storage.ref(`products/${category.toLowerCase()}/${id}`).put(img);
       await window.location.reload(false);
@@ -75,6 +76,7 @@ const [category, setCategory] = useState();
         maxPrice: maxPrice,
         usePrice: "nPrice",
         category: category,
+        seller :user?.uid,
       });
     }
   };

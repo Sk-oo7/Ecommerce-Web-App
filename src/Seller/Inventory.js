@@ -23,7 +23,7 @@ function Inventory() {
   }, [user]);
   return (
     <div>
-      <div className="products">
+      <div className="products_Inventory products">
         <h1>Your Products</h1>
         <div className="products_back">
           <div className="products_product">

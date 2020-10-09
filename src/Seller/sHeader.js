@@ -40,7 +40,7 @@ function Header() {
           <img src={Logo} alt="website logo" height="50"></img>
         </Link>
       </Navbar.Brand>
-      <Form inline className="ml-auto search_inp">
+      {/* <Form inline className="ml-auto search_inp">
         <InputGroup className="formInput search_inp" style={{ width: "600px" }}>
           <InputGroup.Prepend>
             <InputGroup.Text>
@@ -55,8 +55,8 @@ function Header() {
             // onChange={handleSearchValue}
           />
         </InputGroup>
-      </Form>
-      <Nav className="ml-sm-4" style={{ paddingLeft: "30px" }}>
+      </Form> */}
+      <Nav className="ml-sm-4" style={{ paddingLeft: "55vw" }}>
         <Nav.Link>
           <Link to="/seller/Catalogue" className="link">
             Catalogue
@@ -92,7 +92,6 @@ function Header() {
               <Link
                 to="/seller/SignIn"
                 className="link"
-                // onClick={() => history.replace("/SignIn")}
               >
                 <div
                   class="log_option"

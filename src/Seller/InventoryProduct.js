@@ -3,10 +3,8 @@ import { Button } from "react-bootstrap";
 import { db, storage } from "../firebase";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useStateValue } from "../StateProvider";
-import { useHistory } from "react-router-dom";
 
 function InventoryProduct({ product }) {
-  const history = useHistory();
   const [url, setUrl] = useState();
   const [{ user }] = useStateValue();
   const [disable, setDisable] = useState();
@@ -32,7 +30,8 @@ function InventoryProduct({ product }) {
   });
 
   const handleMinPrice = async () => {
-    db.collection("sellers")
+    async function load(){
+      await db.collection("sellers")
       .doc(user?.uid)
       .collection("products")
       .onSnapshot((snapshot) => {
@@ -41,41 +40,90 @@ function InventoryProduct({ product }) {
             doc.ref.update({ usePrice: "minPrice" });
         });
       });
+    }
 
-    setTimeout(() => {
-      window.location.reload(false);
-    }, 200);
-  };
-  const handleNPrice = () => {
-    db.collection("sellers")
-      .doc(user?.uid)
-      .collection("products")
+async function load1(){
+  await db.collection("products")
       .onSnapshot((snapshot) => {
         snapshot.docs.map((doc) => {
           if (doc.data().id === product.id)
-            doc.ref.update({ usePrice: "nPrice" });
+            doc.ref.update({ usePrice: "minPrice" });
         });
       });
+    }
+    async function refresh(){
+      await  setTimeout(() => {
+        window.location.reload(false);
+      }, 1000);
+    }
+    await load();
+    await load1();
+    await refresh();
 
-    setTimeout(() => {
-      window.location.reload(false);
-    }, 200);
+   
+  };
+  const handleNPrice = async () => {
+    async function load(){
+      await db.collection("sellers")
+        .doc(user?.uid)
+        .collection("products")
+        .onSnapshot((snapshot) => {
+          snapshot.docs.map((doc) => {
+            if (doc.data().id === product.id)
+              doc.ref.update({ usePrice: "nPrice" });
+          });
+        });
+      }
+  
+  async function load1(){
+    await  db.collection("products")
+        .onSnapshot((snapshot) => {
+          snapshot.docs.map((doc) => {
+            if (doc.data().id === product.id)
+              doc.ref.update({ usePrice: "nPrice" });
+          });
+        });
+      }
+      async function refresh(){
+        await setTimeout(() => {
+          window.location.reload(false);
+        }, 1000);
+      }
+      await load();
+      await load1();
+      await refresh();
   };
 
-  const handleMaxPrice = () => {
-    db.collection("sellers")
-      .doc(user?.uid)
-      .collection("products")
-      .onSnapshot((snapshot) => {
-        snapshot.docs.map((doc) => {
-          if (doc.data().id === product.id)
-            doc.ref.update({ usePrice: "maxPrice" });
+  const handleMaxPrice = async () => {
+    async function load(){
+      await db.collection("sellers")
+        .doc(user?.uid)
+        .collection("products")
+        .onSnapshot((snapshot) => {
+          snapshot.docs.map((doc) => {
+            if (doc.data().id === product.id)
+              doc.ref.update({ usePrice: "maxPrice" });
+          });
         });
-      });
-
-    setTimeout(() => {
-      window.location.reload(false);
-    }, 200);
+      }
+  
+  async function load1(){
+        await db.collection("products")
+        .onSnapshot((snapshot) => {
+          snapshot.docs.map((doc) => {
+            if (doc.data().id === product.id)
+              doc.ref.update({ usePrice: "maxPrice" });
+          });
+        });
+      }
+      async function refresh(){
+         await setTimeout(() => {
+          window.location.reload(false);
+        }, 1000);
+      }
+      await load();
+      await load1();
+      await refresh();
   };
 
   return (
@@ -100,7 +148,7 @@ function InventoryProduct({ product }) {
         <div className="product_details">
           <div className="ProductItem_title">{product.title}</div>
           <div className="ProductItem_price">
-            ₹<strong className="price">{product.nPrice}</strong>
+            ₹<strong className="price">{product.usePrice === "nPrice"? product.nPrice : product.usePrice === "minPrice"?  product.minPrice : product.maxPrice}</strong>
           </div>
           <div className="Inventory_buttons">
             <Button

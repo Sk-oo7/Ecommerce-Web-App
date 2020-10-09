@@ -24,7 +24,7 @@ function SearchedItems({ product, search }) {
           id={product.id}
           title={product.title}
           pic={url}
-          price={product.nPrice}
+          price={product.usePrice === "nPrice"? product.nPrice : product.usePrice === "minPrice"?  product.minPrice : product.maxPrice}
           rating={0}
           categoryx={product.category}
         />
