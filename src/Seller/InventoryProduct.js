@@ -29,7 +29,7 @@ function InventoryProduct({ product }) {
           if (doc.data().id === product.id) setDisable(doc.data().usePrice);
         });
       });
-  }, []);
+  });
 
   const handleMinPrice = async () => {
     db.collection("sellers")
@@ -127,7 +127,7 @@ function InventoryProduct({ product }) {
             >
               Sell for Max-price
             </Button>
-            <Button variant="outline-danger" className="Products_button">
+            <Button variant="outline-danger" className="Products_button" style={{position:"absolute", right:"50px"}} size="s">
               <DeleteIcon />
             </Button>
           </div>

@@ -13,13 +13,14 @@ function Inventory() {
         .doc(user?.uid)
         .collection("products")
         .onSnapshot((snapshot) => {
-          snapshot.docs.map((doc) => {
-            setProducts((products) => products.concat(doc.data()));
-          });
-        });
-    }
+          setProducts(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+        )
+    })
+  }
   }, [user]);
-
   return (
     <div>
       <div className="products">
@@ -27,7 +28,7 @@ function Inventory() {
         <div className="products_back">
           <div className="products_product">
             {products?.map((product) => (
-              <InventoryProduct product={product} />
+              <InventoryProduct product={product.data} />
             ))}
           </div>
         </div>

@@ -26,6 +26,7 @@ function SearchedItems({ product, search }) {
           pic={url}
           price={product.nPrice}
           rating={0}
+          categoryx={product.category}
         />
       </div>
     );

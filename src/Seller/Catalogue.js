@@ -34,12 +34,16 @@ function Catalogue() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState();
   const [eSearch, setEsearch] = useState();
+  const [disable, setDisable] = useState(false);
 
   useEffect(() => {
     if (search == "") {
       setEsearch("");
     }
   }, [search]);
+
+
+
 
   const handleImg = (e) => {
     SetDone(true);
@@ -89,6 +93,19 @@ function Catalogue() {
     }
   };
 
+  const checkId =() =>{
+    setDisable(false);
+    db.collection("products").onSnapshot((snapshot) => {
+      snapshot.docs.map((doc) => {
+        if (doc.data().id === id){ alert("ID taken, please enter different ID")
+        setDisable(true);
+      }
+      
+      });
+    });
+   
+  }
+
   return (
     <div
       style={{
@@ -107,7 +124,7 @@ function Catalogue() {
       >
         <Row>
           <Col style={{ borderRight: "1px solid black" }}>
-            <h3>List an existing product</h3>
+            <h3>Search an existing product</h3>
             <Form style={{ display: "flex" }}>
               <Form.Control
                 type="text"
@@ -138,7 +155,7 @@ function Catalogue() {
             </div>
           </Col>
           <Col>
-            <h3>List an new product</h3>
+            <h3>List your product</h3>
             <div
               style={{
                 backgroundColor: "white",
@@ -215,6 +232,7 @@ function Catalogue() {
                               marginTop: "20px",
                             }}
                             onChange={(e) => setId(e.target.value)}
+                            onBlur={checkId}
                           />
                         </Col>
                       </Form.Row>
@@ -327,7 +345,7 @@ function Catalogue() {
                             placement="bottom"
                             overlay={
                               <Tooltip>
-                                You can select any price amony these according
+                                You can select any price among these according
                                 to sales and seasons from Inventory.
                               </Tooltip>
                             }
@@ -359,7 +377,7 @@ function Catalogue() {
                     disabled={
                       !category ||
                       !title ||
-                      !id ||
+                      disable ||
                       !img ||
                       !nPrice ||
                       !maxPrice ||
