@@ -5,14 +5,27 @@ import "./Products.css";
 import { useStateValue } from "./StateProvider";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import Modal from "react-bootstrap/Modal";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 
-export default function ProductItem({ id, title, pic, price, rating }) {
+export default function ProductItem({ id, title, price, rating,category }) {
   const [{ user, Cart, Wishlist }, dispach] = useStateValue();
   const [guest, setGuest] = useStateValue();
   const [search, setSearch] = useStateValue();
   const [showModal, setShowMoadal] = useState(false);
   const [showWishModal, setShowWishMoadal] = useState(false);
+  const [pic,setPic] =useState();
+
+  useEffect(() => {
+    async function loadImg() {
+      await storage
+        .ref(`products/${category?.toLowerCase()}/${id}`)
+        .getDownloadURL()
+        .then((url) => {
+          setPic(url);
+        });
+    }
+    loadImg();
+  })
 
   useEffect(() => {
     if (showModal === true) {

@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { isMobile } from "react-device-detect";
 
 import ProductItem from "./ProductItem.js";
-import product_carousel_1 from "./Assets/Img/Product_Carousel_1.jpg";
-import product_carousel_2 from "./Assets/Img/Product_Carousel_2.jpg";
-import product_carousel_3 from "./Assets/Img/Product_Carousel_3.jpg";
-import product_carousel_4 from "./Assets/Img/Product_Carousel_4.jpg";
-import product_carousel_5 from "./Assets/Img/Product_Carousel_5.jpg";
-import product_carousel_6 from "./Assets/Img/Product_Carousel_6.jpg";
+import { db } from "./firebase.js";
 
 export default function ProductCarousel() {
+  const [products,setProducts]=useState();
+
+  useEffect(()=>{
+    
+    db.collection("products")
+    .orderBy("id")
+    .onSnapshot((snapshot) =>
+    setProducts(
+          snapshot.docs.map((doc) => {
+            if(doc.data().category === "Premium" && doc.data().id > 7 )
+            return doc.data()
+            else return {}
+            
+          })
+        )
+      );
+},[])
   const responsive = {
     desktop: {
       breakpoint: { max: 4000, min: 1024 },
@@ -33,10 +45,10 @@ export default function ProductCarousel() {
     <div className="div_Carousel_Products" id="features">
       <hr />
       <center>
-        <h1>Apple Products</h1>
+        <h1>Premium Products</h1>
       </center>
 
-      <Carousel
+      {products && <Carousel
         swipeable={true}
         draggable={false}
         showDots={false}
@@ -49,61 +61,22 @@ export default function ProductCarousel() {
         autoPlay={!isMobile}
         autoPlaySpeed={2000}
       >
+        
+
+           {products?.map((product)=>
+        product?.id >7 && 
         <div className="div_product_carousel">
-          <ProductItem
-            id={8}
-            title="Apple iPhone 11 Pro Max (256GB) - Midnight Green"
-            pic={product_carousel_1}
-            price={121990.99}
-            rating={5}
-          />
+        <ProductItem
+          id={product?.id}
+          title={product?.title}
+          price={product.usePrice === "nPrice"? product.nPrice : product.usePrice === "minPrice"?  product.minPrice : product.maxPrice}
+          rating={Math.floor(Math.random()*(3)+3)}
+          category={product?.category}
+        />
         </div>
-        <div className="div_product_carousel">
-          <ProductItem
-            id={9}
-            title="Apple iPhone 7 (32GB) - Rose Gold"
-            pic={product_carousel_2}
-            price={29799.0}
-            rating={4}
-          />
-        </div>
-        <div className="div_product_carousel">
-          <ProductItem
-            id={10}
-            title="Apple iPhone XR 2018 (64GB) - Yellow"
-            pic={product_carousel_3}
-            price={50499.0}
-            rating={4}
-          />
-        </div>
-        <div className="div_product_carousel">
-          <ProductItem
-            id={11}
-            title="Apple Watch Series 3 (GPS, 42mm) - Space Grey"
-            pic={product_carousel_4}
-            price={23990.0}
-            rating={3}
-          />
-        </div>
-        <div className="div_product_carousel">
-          <ProductItem
-            id={12}
-            title="Apple AirPods Pro (Active Noice Cancellation)"
-            pic={product_carousel_5}
-            price={21290.0}
-            rating={5}
-          />
-        </div>
-        <div className="div_product_carousel">
-          <ProductItem
-            id={13}
-            title="Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage)"
-            pic={product_carousel_6}
-            price={179990.0}
-            rating={5}
-          />
-        </div>
-      </Carousel>
+        )}
+        
+      </Carousel>}
     </div>
   );
 }

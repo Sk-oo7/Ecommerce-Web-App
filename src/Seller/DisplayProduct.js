@@ -19,7 +19,7 @@ function DisplayProduct({ id, title, pic, price, rating,categoryx }) {
 const [modal,ShowModal]=useState(false);
 const [category, setCategory] = useState();
   const [titlex, setTitlex] = useState("");
-  const [idx, setIdx] = useState();
+  const [idx, setIdx] = useState(0);
   const [img, setImg] = useState();
   const [imgname, setImgname] = useState();
   const [done, SetDone] = useState(false);
@@ -55,7 +55,7 @@ const [category, setCategory] = useState();
     e.preventDefault();
     if (user) {
       await db.collection("products").add({
-        id: idx,
+        id:  parseInt(idx),
         nPrice: nPrice,
         title: titlex,
         minPrice: minPrice,
@@ -69,7 +69,7 @@ const [category, setCategory] = useState();
     }
     if (user?.uid) {
       await db.collection("sellers").doc(user.uid).collection("products").add({
-        id: idx,
+        id:  parseInt(idx),
         nPrice: nPrice,
         title: titlex,
         minPrice: minPrice,

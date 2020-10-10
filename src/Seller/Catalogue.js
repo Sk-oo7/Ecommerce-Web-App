@@ -21,7 +21,7 @@ import SearchedItems from "./SearchedItems.js";
 function Catalogue() {
   const [category, setCategory] = useState();
   const [title, setTitle] = useState();
-  const [id, setId] = useState();
+  const [id, setId] = useState(0);
   const [img, setImg] = useState();
   const [imgname, setImgname] = useState();
   const [done, SetDone] = useState(false);
@@ -56,7 +56,7 @@ function Catalogue() {
     e.preventDefault();
     if (user) {
       await db.collection("products").add({
-        id: id,
+        id: parseInt(id),
         nPrice: nPrice,
         title: title,
         minPrice: minPrice,
@@ -70,7 +70,7 @@ function Catalogue() {
     }
     if (user?.uid) {
       await db.collection("sellers").doc(user.uid).collection("products").add({
-        id: id,
+        id: parseInt(id),
         nPrice: nPrice,
         title: title,
         minPrice: minPrice,
