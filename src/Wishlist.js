@@ -54,6 +54,7 @@ function Wishlist() {
               pic={item.data.pic}
               price={item.data.price}
               rating={item.data.rating}
+              seller ={item.data.seller}
               hideButton
               showWishlistButton
               showCartButton

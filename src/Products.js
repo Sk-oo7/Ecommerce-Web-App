@@ -35,6 +35,7 @@ export default function Products() {
           price={product.usePrice === "nPrice"? product.nPrice : product.usePrice === "minPrice"?  product.minPrice : product.maxPrice}
           rating={Math.floor(Math.random()*(3)+3)}
           category={product?.category}
+          seller={product?.seller}
         />
         
         )}
@@ -49,6 +50,7 @@ export default function Products() {
           price={product?.nPrice}
           rating={Math.floor(Math.random()*(3)+3)}
           category={product?.category}
+          seller={product?.seller}
         />
         
         )}

@@ -106,6 +106,7 @@ function Payment() {
       setClientSecret(response.data.clientSecret);
     };
     getClientSecret();
+   
   }, [total]);
 
   const handleSubmit = async (event) => {
@@ -140,6 +141,15 @@ function Payment() {
               created: paymentIntent.created,
             });
         }
+        
+        {cart.map((item)=>{
+          if(item.data.seller != ""){
+            db.collection("sellers").doc(item.data.seller).collection("balance").add({
+              amount:  parseInt(item.data.price),
+              created: paymentIntent.created,
+            })
+          }
+        })}
 
         setSucceeded(true);
         setError(null);

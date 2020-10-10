@@ -9,6 +9,7 @@ function CartProduct({
   pic,
   price,
   rating,
+  seller,
   hideButton,
   showWishlistButton,
   showCartButton,
@@ -85,6 +86,7 @@ function CartProduct({
         pic: pic,
         price: price,
         rating: rating,
+        seller:seller
       });
       db.collection("users")
         .doc(user?.uid)
@@ -105,6 +107,7 @@ function CartProduct({
         pic: pic,
         price: price,
         rating: rating,
+        seller:seller
       });
       db.collection("guests")
         .doc(guest?.guest)

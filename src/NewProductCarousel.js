@@ -6,8 +6,9 @@ import { isMobile } from "react-device-detect";
 import ProductItem from "./ProductItem.js";
 import { db } from "./firebase.js";
 
-export default function ProductCarousel() {
+export default function NewProductCarousel() {
   const [products,setProducts]=useState();
+  const [show,setShow]=useState(false);
 
   useEffect(()=>{
     
@@ -16,18 +17,22 @@ export default function ProductCarousel() {
     .onSnapshot((snapshot) =>
     setProducts(
           snapshot.docs.map((doc) => {
-            if(doc.data().category === "Premium" && doc.data().id > 7 )
-            return doc.data()
+            if(doc.data().category === "Basic" && doc.data().id > 7 ){
+                setShow(true)
+                return doc.data()
+            }
+           
             else return {}
             
           })
         )
       );
 },[])
+console.log(products?.length)
   const responsive = {
     desktop: {
       breakpoint: { max: 4000, min: 1024 },
-      items: 4,
+      items: products?.length-13<=4? products?.length-13 : 4,
       slidesToSlide: 3,
     },
     tablet: {
@@ -41,11 +46,12 @@ export default function ProductCarousel() {
       slidesToSlide: 1,
     },
   };
+  if(show)
   return (
-    <div className="div_Carousel_Products" id="features">
+    <div className="div_Carousel_Products" id="features" style={{marginTop:"-15px"}}>
       <hr />
       <center>
-        <h1>Premium Products</h1>
+        <h1>Find More</h1>
       </center>
 
       {products && <Carousel
@@ -72,7 +78,6 @@ export default function ProductCarousel() {
           price={product.usePrice === "nPrice"? product.nPrice : product.usePrice === "minPrice"?  product.minPrice : product.maxPrice}
           rating={Math.floor(Math.random()*(3)+3)}
           category={product?.category}
-          seller={product?.seller}
         />
         </div>
         )}
@@ -80,4 +85,5 @@ export default function ProductCarousel() {
       </Carousel>}
     </div>
   );
+  else return""
 }

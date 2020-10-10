@@ -7,7 +7,7 @@ import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import Modal from "react-bootstrap/Modal";
 import { db, storage } from "./firebase";
 
-export default function ProductItem({ id, title, price, rating,category }) {
+export default function ProductItem({ id, title, price, rating,category,seller }) {
   const [{ user, Cart, Wishlist }, dispach] = useStateValue();
   const [guest, setGuest] = useStateValue();
   const [search, setSearch] = useStateValue();
@@ -48,6 +48,7 @@ export default function ProductItem({ id, title, price, rating,category }) {
         pic: pic,
         price: price,
         rating: rating,
+        seller:seller,
       });
     } else if (guest?.guest) {
       db.collection("guests").doc(guest?.guest).collection("Cart").add({
@@ -56,6 +57,7 @@ export default function ProductItem({ id, title, price, rating,category }) {
         pic: pic,
         price: price,
         rating: rating,
+        seller:seller,
       });
     }
 
@@ -69,6 +71,7 @@ export default function ProductItem({ id, title, price, rating,category }) {
         pic: pic,
         price: price,
         rating: rating,
+        seller:seller,
       });
     } else if (guest?.guest) {
       db.collection("guests").doc(guest?.guest).collection("Wishlist").add({
@@ -77,6 +80,7 @@ export default function ProductItem({ id, title, price, rating,category }) {
         pic: pic,
         price: price,
         rating: rating,
+        seller:seller,
       });
     }
     setShowWishMoadal(true);
