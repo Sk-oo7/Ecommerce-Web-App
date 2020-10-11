@@ -26,10 +26,12 @@ function CartProduct({
     snapshot.docs.map((doc) => 
       setSendTo({
         address:doc.data().address,
-      phone:doc.data().phone
+      phone:doc.data().phone,
+      email:doc.data().email,
+        name:doc.data().displayName
       })
     ))
-  },[])
+  },[user])
   let x = id;
   const removeFromCart = () => {
     if (user) {
@@ -193,11 +195,12 @@ function CartProduct({
           </Button>
         )}
       </div>
-     {showUser &&   <div style={{position:"absolute",right:"100px",margin:"50px"}}>
+     {showUser &&   <div style={{position:"absolute",right:"100px",margin:"40px"}}>
        <h4>Deliver to:</h4>
+       <h6>{sendTo?.name}</h6>
        <h6>{sendTo?.address}</h6>
        <h6>{sendTo?.phone}</h6>
-        
+       <h6>{sendTo?.email}</h6>
        </div>}
     </div>
   );

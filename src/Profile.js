@@ -66,6 +66,8 @@ function Profile() {
       .set({
         address: address,
         phone: number,
+        displayName: name,
+        email:email,
       });
     if (user?.email !== email) {
       await auth

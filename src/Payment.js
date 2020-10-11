@@ -168,26 +168,30 @@ function Payment() {
             );
         }
         {cart.map((item)=>{
-          if(item.data.seller != ""){
-            db.collection("sellers").doc(item.data.seller).collection("balance").add({
-              amount:  parseInt(item.data.price),
+          if(item?.data.seller != ""){
+            db.collection("sellers").doc(item?.data.seller).collection("balance").add({
+              amount:  parseInt(item?.data.price),
               created: paymentIntent.created,
               payment_id:paymentIntent.id
             })
           }
         })}
         {cart.map((item)=>{
-          if(item.data.seller != ""){
-            db.collection("sellers").doc(item.data.seller).collection("orders").add({
-              data:item.data,
+          if(item?.data.seller != ""){
+            db.collection("sellers").doc(item?.data.seller).collection("orders").add({
+              data:item?.data,
               user:user.uid,
               order_id:paymentIntent.id,
               created: paymentIntent.created,
             })
           }
         })}
+
+        
+       setTimeout(() => {
         history.replace("/orders");
-        window.location.reload();
+        window.location.reload(false);
+      }, 3000);
       });
   };
   const handleChange = (event) => {

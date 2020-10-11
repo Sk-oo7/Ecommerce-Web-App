@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import "./SignIn.css";
 import Logo from "./logo.png";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { Link, useHistory } from "react-router-dom";
 
 function SignIn() {
@@ -19,6 +19,8 @@ function SignIn() {
   const [password, setPassword] = useState();
   const [username, setUsername] = useState();
   const [toggle, changeToggle] = useState(false);
+
+
 
   const signIn = (e) => {
     e.preventDefault();
@@ -44,13 +46,21 @@ function SignIn() {
           displayName: username,
         });
       })
-      .then((auth) => {
-        if (auth) {
-          history.push("/");
-        }
+      .then(function () {
+        if(username)
+        db.collection("users")
+        .doc(user?.uid)
+        .collection("profile")
+        .doc("info")
+        .set({
+          displayName: username,
+          email:email,
+        });
       })
-      .catch((error) => alert(error.message));
-    if (user !== null) changeToggle(false);
+      .catch((error) => 
+        alert(error.message)
+      );
+      changeToggle(false);
   };
 
   return (
