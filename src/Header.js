@@ -22,7 +22,6 @@ export default function Header() {
   const [cartSize, setCartSize] = useState(0);
   const [guest, setGuest] = useStateValue();
   const [url, setUrl] = useState();
-  console.log(cartSize);
 
   useEffect(() => {
     if (guest?.guest) {
@@ -59,7 +58,6 @@ export default function Header() {
         .getDownloadURL()
         .then((url) => {
           setUrl(url);
-          console.log(url);
         });
     }
   }, [user]);

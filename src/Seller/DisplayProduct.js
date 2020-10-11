@@ -64,7 +64,7 @@ const [category, setCategory] = useState();
         category: category,
         seller :user?.uid,
       });
-      await storage.ref(`products/${category.toLowerCase()}/${id}`).put(img);
+      await storage.ref(`products/${category.toLowerCase()}/${idx}`).put(img);
       await window.location.reload(false);
     }
     if (user?.uid) {
