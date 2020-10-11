@@ -142,14 +142,7 @@ function Payment() {
             });
         }
         
-        {cart.map((item)=>{
-          if(item.data.seller != ""){
-            db.collection("sellers").doc(item.data.seller).collection("balance").add({
-              amount:  parseInt(item.data.price),
-              created: paymentIntent.created,
-            })
-          }
-        })}
+        
 
         setSucceeded(true);
         setError(null);
@@ -174,7 +167,25 @@ function Payment() {
               })
             );
         }
-
+        {cart.map((item)=>{
+          if(item.data.seller != ""){
+            db.collection("sellers").doc(item.data.seller).collection("balance").add({
+              amount:  parseInt(item.data.price),
+              created: paymentIntent.created,
+              payment_id:paymentIntent.id
+            })
+          }
+        })}
+        {cart.map((item)=>{
+          if(item.data.seller != ""){
+            db.collection("sellers").doc(item.data.seller).collection("orders").add({
+              data:item.data,
+              user:user.uid,
+              order_id:paymentIntent.id,
+              created: paymentIntent.created,
+            })
+          }
+        })}
         history.replace("/orders");
         window.location.reload();
       });
@@ -227,6 +238,7 @@ function Payment() {
                   pic={item.data.pic}
                   price={item.data.price}
                   rating={item.data.rating}
+                  seller ={item.data.seller}
                 />
               ))}
             </div>

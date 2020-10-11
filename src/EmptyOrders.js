@@ -3,7 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 
-function EmptyOrders() {
+function EmptyOrders(hide) {
   return (
     <div
       style={{
@@ -17,10 +17,11 @@ function EmptyOrders() {
       }}
     >
       <h2>No Orders yet</h2>
-      <h3>Checkout the latest offers and products available in the store.</h3>
-      <Link to="/">
+      {!hide && <h3>Checkout the latest offers and products available in the store.</h3>}
+      {hide && <h3>List products from Catalogue to get orders from users. Happy Selling!</h3>}
+      {!hide && <Link to="/">
         <Button variant="warning">Start Shopping</Button>
-      </Link>
+      </Link>}
     </div>
   );
 }

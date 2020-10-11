@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { db } from "./firebase";
+import { db, } from "./firebase";
 import { useStateValue } from "./StateProvider";
 
 function CartProduct({
@@ -13,10 +13,23 @@ function CartProduct({
   hideButton,
   showWishlistButton,
   showCartButton,
+  showUser,
+  to
 }) {
   const [{ user, Cart }, dispach] = useStateValue();
   const [guest, setGuest] = useStateValue();
+  const [sendTo, setSendTo] = useState();
 
+  useEffect(()=>{
+    if(showUser)
+    db.collection("users").doc(to).collection("profile").onSnapshot((snapshot)=>
+    snapshot.docs.map((doc) => 
+      setSendTo({
+        address:doc.data().address,
+      phone:doc.data().phone
+      })
+    ))
+  },[])
   let x = id;
   const removeFromCart = () => {
     if (user) {
@@ -180,6 +193,12 @@ function CartProduct({
           </Button>
         )}
       </div>
+     {showUser &&   <div style={{position:"absolute",right:"100px",margin:"50px"}}>
+       <h4>Deliver to:</h4>
+       <h6>{sendTo?.address}</h6>
+       <h6>{sendTo?.phone}</h6>
+        
+       </div>}
     </div>
   );
 }
