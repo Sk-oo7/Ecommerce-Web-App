@@ -119,9 +119,9 @@ function Payment() {
           card: elements.getElement(CardElement),
         },
       })
-      .then(({ paymentIntent }) => {
+      .then(async ({ paymentIntent }) => {
         if (user) {
-          db.collection("users")
+          await db.collection("users")
             .doc(user?.uid)
             .collection("orders")
             .doc(paymentIntent.id)
@@ -131,7 +131,7 @@ function Payment() {
               created: paymentIntent.created,
             });
         } else if (guest?.guest) {
-          db.collection("guests")
+          await db.collection("guests")
             .doc(guest?.guest)
             .collection("orders")
             .doc(paymentIntent.id)
@@ -149,7 +149,7 @@ function Payment() {
         setProcessing(false);
 
         if (user) {
-          db.collection("users")
+           db.collection("users")
             .doc(user?.uid)
             .collection("Cart")
             .onSnapshot((snapshot) =>
@@ -158,7 +158,7 @@ function Payment() {
               })
             );
         } else if (guest?.guest) {
-          db.collection("guests")
+           db.collection("guests")
             .doc(guest?.guest)
             .collection("Cart")
             .onSnapshot((snapshot) =>
@@ -169,7 +169,7 @@ function Payment() {
         }
         {cart.map((item)=>{
           if(item?.data.seller != ""){
-            db.collection("sellers").doc(item?.data.seller).collection("balance").add({
+             db.collection("sellers").doc(item?.data.seller).collection("balance").add({
               amount:  parseInt(item?.data.price),
               created: paymentIntent.created,
               payment_id:paymentIntent.id
@@ -178,7 +178,7 @@ function Payment() {
         })}
         {cart.map((item)=>{
           if(item?.data.seller != ""){
-            db.collection("sellers").doc(item?.data.seller).collection("orders").add({
+             db.collection("sellers").doc(item?.data.seller).collection("orders").add({
               data:item?.data,
               user:user.uid,
               order_id:paymentIntent.id,
@@ -188,10 +188,10 @@ function Payment() {
         })}
 
         
-       setTimeout(() => {
+      //  setTimeout(() => {
         history.replace("/orders");
         window.location.reload(false);
-      }, 3000);
+      // }, 3000);
       });
   };
   const handleChange = (event) => {
