@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Catalogue from "./Catalogue";
 import Footer from "./Footer";
+import Home from "./Home";
 import Inventory from "./Inventory";
 import Orders from "./Orders";
 import Profile from "./Profile";
@@ -15,6 +16,7 @@ function Seller() {
         <Switch>
           <Route path="/seller" exact>
             <Header />
+            <Home/>
             <Footer />
           </Route>
           <Route path="/seller/SignIn" exact>
