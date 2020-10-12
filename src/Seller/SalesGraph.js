@@ -24,7 +24,7 @@ function SalesGraph() {
 
     
 useEffect(()=>{
-  
+  let janSum = 0,febSum = 0,marSum = 0,aprSum = 0,maySum = 0,junSum = 0,julSum = 0,augSum = 0,sepSum = 0,octSum = 0,novSum = 0,decSum = 0
     
     if(user?.uid){
    
@@ -34,40 +34,52 @@ useEffect(()=>{
         .onSnapshot((snapshot)=>
         snapshot.docs.map((doc) => {
             if(moment.unix(doc.data().created).format("MMM")==="Jan" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setJanData( parseInt(janData, 10) + parseInt(doc.data().amount, 10));
+                janSum =parseInt(janSum, 10) + parseInt(doc.data().amount, 10)
+                setJanData(janSum);
             }
             else if(moment.unix(doc.data().created).format("MMM")==="Feb" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setFebData( parseInt(febData, 10) + parseInt(doc.data().amount, 10));
+                febSum=parseInt(febSum, 10) + parseInt(doc.data().amount, 10)
+                setFebData(febSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Mar" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setMarData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                marSum=parseInt(marSum, 10) + parseInt(doc.data().amount, 10)
+                setMarData(marSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Arp" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setAprData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                aprSum=parseInt(aprSum, 10) + parseInt(doc.data().amount, 10)
+                setAprData(aprSum);
             }   
             else  if(moment.unix(doc.data().created).format("MMM")==="May" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setMayData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                maySum=parseInt(maySum, 10) + parseInt(doc.data().amount, 10)
+                setMayData(maySum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Jun" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setJunData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                junSum=parseInt(junSum, 10) + parseInt(doc.data().amount, 10)
+                setJunData(junSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Jul" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setJulData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                julSum=parseInt(julSum, 10) + parseInt(doc.data().amount, 10)
+                setJulData(julSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Aug" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setAugData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                augSum=parseInt(augSum, 10) + parseInt(doc.data().amount, 10)
+                setAugData(augSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Sep" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setSepData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                sepSum=parseInt(sepSum, 10) + parseInt(doc.data().amount, 10)
+                setSepData(sepSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Oct" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setOctData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                octSum= parseInt(octSum, 10) + parseInt(doc.data().amount, 10)
+                setOctData(octSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Nov" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setNovData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                novSum=parseInt(novSum, 10) + parseInt(doc.data().amount, 10)
+                setNovData(novSum);
             }
             else  if(moment.unix(doc.data().created).format("MMM")==="Dec" && moment.unix(doc.data().created).format("YYYY")==(new Date().getFullYear())){
-                setDecData( parseInt(octData, 10) + parseInt(doc.data().amount, 10));
+                decSum=parseInt(decSum, 10) + parseInt(doc.data().amount, 10)
+                setDecData(decSum);
             }  
           }))
         }
