@@ -34,6 +34,7 @@ function Order({ order }) {
         value={order.data.amount / 100}
         displayType={"text"}
         thousandSpacing={"2s"}
+        thousandSeparator={true}
         prefix={"₹"}
       />
     </div>

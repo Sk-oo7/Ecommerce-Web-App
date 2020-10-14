@@ -89,6 +89,7 @@ function SubTotal({ Len }) {
           value={total}
           displayType={"text"}
           thousandSpacing={"2s"}
+          thousandSeparator={true}
           prefix={"₹"}
         />
         <Button variant="warning" onClick={(e) => history.push("/payment")}>
@@ -116,6 +117,7 @@ function SubTotal({ Len }) {
           decimalScale={2}
           value={total}
           displayType={"text"}
+          thousandSeparator={true}
           thousandSpacing={"2s"}
           prefix={"₹"}
         />

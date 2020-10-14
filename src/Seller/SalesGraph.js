@@ -84,7 +84,7 @@ useEffect(()=>{
           }))
         }
 },[user])
-console.log(octData)
+
     useEffect(() => {
     
         

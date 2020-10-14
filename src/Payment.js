@@ -265,6 +265,7 @@ function Payment() {
                         value={total}
                         displayType={"text"}
                         thousandSpacing={"2s"}
+                        thousandSeparator={true}
                         prefix={"₹"}
                       />
                       <Button
