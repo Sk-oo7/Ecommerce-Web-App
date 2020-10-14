@@ -141,9 +141,21 @@ function Payment() {
               created: paymentIntent.created,
             });
         }
+        {cart.map((item)=>{
+          if(item?.data.seller != ""){
+            db.collection("sellers").doc(item?.data.seller).collection("notifications").add({
+              msg: `You got a new Order for ${item.data.title}`,
+              variant: "primary",
+              created: paymentIntent.created
+            })
+            db.collection("sellers").doc(item?.data.seller).collection("notifications").add({
+              msg: `₹${item.data.price} is added to your Account`,
+              variant:"success",
+              created: paymentIntent.created
+            })
+          }
+        })}
         
-        
-
         setSucceeded(true);
         setError(null);
         setProcessing(false);

@@ -12,6 +12,8 @@ function Home() {
     const[yearSum,setYearSum]=useState(0);
     const[monSum,setMonSum]=useState(0);
     const[daySum,setDaySum]=useState(0);
+    const[totalSum,setTotalSum]=useState(0);
+
     const[len,setLen]=useState(0);
 
     useEffect(()=>{
@@ -26,7 +28,7 @@ function Home() {
     })
 
     useEffect(() => {
-        let yearsum=0,monsum=0,daysum=0;
+        let yearsum=0,monsum=0,daysum=0,totalsum=0;
         if(user?.uid){
             db.collection("sellers")
                 .doc(user?.uid)
@@ -45,18 +47,18 @@ function Home() {
                                 daysum =parseInt(daysum, 10) + parseInt(doc.data().amount, 10)
                                 setDaySum(daysum);
                             }
+                            totalsum=parseInt(totalsum, 10) + parseInt(doc.data().amount, 10)
+                            setTotalSum(totalsum);
+
                             }
                             
                             ))
                             yearsum=0
                             monsum=0
                             daysum=0
+                            totalsum=0
         }
     },[user,len])
-
-    useEffect(()=>{
-        // window.location.reload(false)
-    })
 
     return (
             //  <h3 style={{backgroundColor:"white"}}>Hello, {user?.displayName} -here's whats happening with your sales</h3> 
@@ -68,7 +70,7 @@ function Home() {
             <div style={{display :"flex"}}>
             <Notifications/>
             <SalesGraph/>
-            <TotalSales yearSum={yearSum} monSum={monSum} daySum={daySum}/>
+            <TotalSales yearSum={yearSum} monSum={monSum} daySum={daySum} totalSum={totalSum}/>
             
         
         </div>
