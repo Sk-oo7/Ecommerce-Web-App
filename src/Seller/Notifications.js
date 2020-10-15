@@ -18,10 +18,9 @@ function Notifications() {
           );
         }
     },[user])
-    console.log("f",note)
     
     return (
-        <div style={{margin:"0 20px 0 0",backgroundColor:"white",width:"30%"}}>
+        <div style={{margin:"-180px 20px 0 0",backgroundColor:"white",width:"30%"}}>
             <h3 style={{color:"gray",textAlign:"center",marginTop:"10px"}}>Notifications</h3>
             <hr/>
             <div style={{marginLeft:"10px",marginRight:"10px"}}>

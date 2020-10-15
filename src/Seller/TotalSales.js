@@ -74,7 +74,7 @@ function TotalSales({yearSum,monSum,daySum,totalSum}) {
                             /></td>
                     </tr>
                     <tr>
-                        <td>Total (till date)</td>
+                        <td>All time</td>
                         <td><CurrencyFormat
                             renderText={(value) => (
                                 <div>{value}</div>
