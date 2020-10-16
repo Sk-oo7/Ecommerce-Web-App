@@ -6,9 +6,11 @@ import SalesGraph from "./SalesGraph.js"
 import TotalSales from './TotalSales.js';
 import moment from "moment";
 import HeadCards from './HeadCards.js';
+import { useHistory } from 'react-router-dom';
 
 
 function Home() {
+    const history = useHistory();
     const [{ user }] = useStateValue();
     const[yearSum,setYearSum]=useState(0);
     const[lastYearSum,setLastYearSum]=useState(0);
@@ -30,6 +32,7 @@ function Home() {
                         setLen(snap.size);
                     });
         }
+       
     })
 
     useEffect(() => {

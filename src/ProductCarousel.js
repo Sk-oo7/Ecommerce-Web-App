@@ -59,7 +59,6 @@ export default function ProductCarousel() {
         transitionDuration={500}
         containerClass="carousel-container"
         autoPlay={!isMobile}
-        autoPlaySpeed={2000}
       >
         
 

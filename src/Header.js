@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Logo from "./logo.png";
 import SearchIcon from "@material-ui/icons/Search";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -22,6 +21,16 @@ export default function Header() {
   const [cartSize, setCartSize] = useState(0);
   const [guest, setGuest] = useStateValue();
   const [url, setUrl] = useState();
+  const [Logo, setLogo] = useState();
+
+  useEffect(() => {
+    storage
+        .ref("logo/logo.png")
+        .getDownloadURL()
+        .then((url) => {
+          setLogo(url);
+        });
+  })
 
   useEffect(() => {
     if (guest?.guest) {
@@ -82,7 +91,7 @@ export default function Header() {
     <Navbar bg="dark" variant="dark" sticky="top" className="mr-auto">
       <Navbar.Brand>
         <Link to="/">
-          <img src={Logo} alt="website logo" height="50"></img>
+          <img src={Logo} height="50"></img>
         </Link>
       </Navbar.Brand>
 

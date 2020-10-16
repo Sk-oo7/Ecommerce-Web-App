@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./Footer.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Icons from "./Assets/Img/cards-icons.png";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import InstagramIcon from "@material-ui/icons/Instagram";
@@ -12,7 +11,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import RoomIcon from "@material-ui/icons/Room";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import { Link } from "react-router-dom";
 import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
 import { useStateValue } from "./StateProvider";
@@ -21,6 +20,17 @@ function Footer() {
   const [Email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [{ user }, dispach] = useStateValue();
+
+  const [Icons, setIcons] = useState();
+ 
+  useEffect(() => {
+    storage
+        .ref("extras/cards-icons.png")
+        .getDownloadURL()
+        .then((url) => {
+          setIcons(url);
+        });
+  })
 
   const handleMessage = (e) => {
     e.preventDefault();

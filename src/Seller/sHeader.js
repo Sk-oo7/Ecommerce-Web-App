@@ -1,18 +1,23 @@
 import { Avatar } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Form, FormControl, InputGroup, Nav, Navbar } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
-import Logo from "./Assets/logo.png";
-import SearchIcon from "@material-ui/icons/Search";
 import { auth, storage } from "../firebase";
 
 function Header() {
-  const [{ user }, dispach] = useStateValue();
+  const [{ user }] = useStateValue();
   const [url, setUrl] = useState();
-  const history = useHistory();
-
-  const [search, setSearch] = useStateValue();
+  const [Logo, setLogo] = useState();
+ 
+  useEffect(() => {
+    storage
+        .ref("logo/slogo.png")
+        .getDownloadURL()
+        .then((url) => {
+          setLogo(url);
+        });
+  })
 
   useEffect(() => {
     if (user) {
@@ -37,7 +42,7 @@ function Header() {
     <Navbar bg="dark" variant="dark" sticky="top" className="mr-auto">
       <Navbar.Brand>
         <Link to="/seller">
-          <img src={Logo} alt="website logo" height="50"></img>
+          <img src={Logo} height="50"></img>
         </Link>
       </Navbar.Brand>
       {/* <Form inline className="ml-auto search_inp">

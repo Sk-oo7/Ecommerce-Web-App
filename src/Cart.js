@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
-import ad_1 from "./Assets/Img/Ad_1.jpg";
+// import ad_1 from "./Assets/Img/Ad_1.jpg";
 import SubTotal from "./SubTotal.js";
 import CartProduct from "./CartProduct";
 import { useStateValue } from "./StateProvider";
 import EmptyCart from "./EmptyCart.js";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 
 function Cart() {
   const [{ user, Wishlist }, dispatch] = useStateValue();
   const [cart, setcart] = useState([]);
   const [guest, setGuest] = useStateValue();
+
+  const [ad, setAd] = useState();
+ 
+  useEffect(() => {
+    storage
+        .ref("extras/Ad_1.jpg")
+        .getDownloadURL()
+        .then((url) => {
+          setAd(url);
+        });
+  })
 
   useEffect(() => {
     if (user) {
@@ -45,7 +56,7 @@ function Cart() {
   return (
     <div className="Cart">
       <div className="Cart_left">
-        <img className="Cart_Ad_1" src={ad_1} alt="Ad" />
+        <img className="Cart_Ad_1" src={ad} alt="Ad" />
         <div>
           <h2 className="cart_title">
             Hello,{" "}

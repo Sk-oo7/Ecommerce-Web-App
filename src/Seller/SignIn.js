@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Form,
@@ -9,8 +9,7 @@ import {
   Container,
 } from "react-bootstrap";
 import "./SignIn.css";
-import Logo from "./Assets/logo.png";
-import { auth, db } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import { Link, useHistory } from "react-router-dom";
 
 function SignIn() {
@@ -20,6 +19,17 @@ function SignIn() {
   const [username, setUsername] = useState();
   const [toggle, changeToggle] = useState(false);
   const [gst, setGst] = useState();
+
+  const [Logo, setLogo] = useState();
+ 
+  useEffect(() => {
+    storage
+        .ref("logo/slogo.png")
+        .getDownloadURL()
+        .then((url) => {
+          setLogo(url);
+        });
+  })
 
   const signIn = (e) => {
     e.preventDefault();

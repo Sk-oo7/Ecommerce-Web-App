@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useStateValue } from "../StateProvider";
 import Catalogue from "./Catalogue";
 import Footer from "./Footer";
 import Home from "./Home";
@@ -10,10 +11,11 @@ import Header from "./sHeader";
 import SignIn from "./SignIn.js";
 
 function Seller() {
+  const [{ user }] = useStateValue();
   return (
     <div>
       <Router>
-        <Switch>
+        {user && <Switch>
           <Route path="/seller" exact>
             <Header />
             <Home/>
@@ -42,7 +44,10 @@ function Seller() {
             <Inventory />
             <Footer />
           </Route>
-        </Switch>
+        </Switch>}
+        {!user &&  <Route path="/seller/">
+            <SignIn />
+          </Route>}
       </Router>
     </div>
   );
