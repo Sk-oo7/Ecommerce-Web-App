@@ -19,7 +19,7 @@ import { useStateValue } from "./StateProvider";
 function Footer() {
   const [Email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [{ user }] = useStateValue();
+  const [{ user }, dispach] = useStateValue();
 
   const [Icons, setIcons] = useState();
  
@@ -30,14 +30,14 @@ function Footer() {
         .then((url) => {
           setIcons(url);
         });
-  },[])
+  })
 
   const handleMessage = (e) => {
     e.preventDefault();
     if (Email !== "" && message !== "") {
       var aindex = Email.indexOf("@");
       var cindex = Email.indexOf(".com");
-      if (aindex !== -1 && cindex !== -1 && cindex - aindex >= 2) {
+      if (aindex !== -1 && cindex != -1 && cindex - aindex >= 2) {
         db.collection("messages").add({
           email: Email,
           message: message,
@@ -192,7 +192,7 @@ function Footer() {
 
       <div class="foot">
         © Copyright 2020 - All Credit goes to
-        <strong> Shubham Khullar <span role="img">♥️</span></strong>
+        <strong> Shubham Khullar ♥️</strong>
       </div>
     </div>
   );

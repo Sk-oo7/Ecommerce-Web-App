@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 
 function EmptyCart() {
-  const [{ Cart }] = useStateValue();
+  const [{ Cart }, dispach] = useStateValue();
   if (Cart?.length === 0)
     return (
       <div style={{ color: "grey", textAlign: "center" }}>

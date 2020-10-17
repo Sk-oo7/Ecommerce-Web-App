@@ -7,8 +7,8 @@ import EmptyOrders from "./EmptyOrders";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
-  const [{ user }] = useStateValue([]);
-  const [guest] = useStateValue();
+  const [{ user, Cart }, dispach] = useStateValue([]);
+  const [guest, setGuest] = useStateValue();
 
   useEffect(() => {
     if (user) {

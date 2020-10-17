@@ -16,8 +16,8 @@ function CartProduct({
   showUser,
   to
 }) {
-  const [{ user }] = useStateValue();
-  const [guest] = useStateValue();
+  const [{ user, Cart }, dispach] = useStateValue();
+  const [guest, setGuest] = useStateValue();
   const [sendTo, setSendTo] = useState();
 
   useEffect(()=>{
@@ -40,7 +40,7 @@ function CartProduct({
         .collection("Cart")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {
-            if (doc.data().id === id) {
+            if (doc.data().id == id) {
               doc.ref.delete();
               id = -1;
             }
@@ -53,7 +53,7 @@ function CartProduct({
         .collection("Cart")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {
-            if (doc.data().id === id) {
+            if (doc.data().id == id) {
               doc.ref.delete();
               id = -1;
             }
@@ -70,7 +70,7 @@ function CartProduct({
         .collection("Wishlist")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {
-            if (doc.data().id === id) {
+            if (doc.data().id == id) {
               doc.ref.delete();
               id = -1;
             }
@@ -83,7 +83,7 @@ function CartProduct({
         .collection("Wishlist")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {
-            if (doc.data().id === id) {
+            if (doc.data().id == id) {
               doc.ref.delete();
               id = -1;
             }
@@ -108,7 +108,7 @@ function CartProduct({
         .collection("Wishlist")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {
-            if (doc.data().id === id) {
+            if (doc.data().id == id) {
               doc.ref.delete();
               id = -1;
             }
@@ -129,7 +129,7 @@ function CartProduct({
         .collection("Wishlist")
         .onSnapshot((snapshot) =>
           snapshot.docs.map((doc) => {
-            if (doc.data().id === id) {
+            if (doc.data().id == id) {
               doc.ref.delete();
               id = -1;
             }

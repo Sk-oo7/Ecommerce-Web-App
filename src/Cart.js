@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
+// import ad_1 from "./Assets/Img/Ad_1.jpg";
 import SubTotal from "./SubTotal.js";
 import CartProduct from "./CartProduct";
 import { useStateValue } from "./StateProvider";
@@ -7,9 +8,9 @@ import EmptyCart from "./EmptyCart.js";
 import { db, storage } from "./firebase";
 
 function Cart() {
-  const [{ user  }, ] = useStateValue();
+  const [{ user, Wishlist }, dispatch] = useStateValue();
   const [cart, setcart] = useState([]);
-  const [guest] = useStateValue();
+  const [guest, setGuest] = useStateValue();
 
   const [ad, setAd] = useState();
  
@@ -20,7 +21,7 @@ function Cart() {
         .then((url) => {
           setAd(url);
         });
-  },[])
+  })
 
   useEffect(() => {
     if (user) {

@@ -15,11 +15,11 @@ import Avatar from "@material-ui/core/Avatar";
 import "./Header.css";
 
 export default function Header() {
-  const [{ user }] = useStateValue();
+  const [{ Cart, Wishlist, user }, dispach] = useStateValue();
   const [search, setSearch] = useStateValue();
   const [listSize, setlistSize] = useState(0);
   const [cartSize, setCartSize] = useState(0);
-  const [guest] = useStateValue();
+  const [guest, setGuest] = useStateValue();
   const [url, setUrl] = useState();
   const [Logo, setLogo] = useState();
 
@@ -30,7 +30,7 @@ export default function Header() {
         .then((url) => {
           setLogo(url);
         });
-  },[])
+  })
 
   useEffect(() => {
     if (guest?.guest) {

@@ -8,9 +8,9 @@ import Modal from "react-bootstrap/Modal";
 import { db, storage } from "./firebase";
 
 export default function ProductItem({ id, title, price, rating,category,seller }) {
-  const [{ user}] = useStateValue();
-  const [guest] = useStateValue();
-  const [search] = useStateValue();
+  const [{ user, Cart, Wishlist }, dispach] = useStateValue();
+  const [guest, setGuest] = useStateValue();
+  const [search, setSearch] = useStateValue();
   const [showModal, setShowMoadal] = useState(false);
   const [showWishModal, setShowWishMoadal] = useState(false);
   const [pic,setPic] =useState();

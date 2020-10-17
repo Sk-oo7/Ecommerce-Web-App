@@ -28,7 +28,7 @@ function SignIn() {
         .then((url) => {
           setLogo(url);
         });
-  },[])
+  })
 
   const signIn = (e) => {
     e.preventDefault();

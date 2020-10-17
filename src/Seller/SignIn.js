@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import "./SignIn.css";
 import { auth, db, storage } from "../firebase";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function SignIn() {
   const history = useHistory();
@@ -29,7 +29,7 @@ function SignIn() {
         .then((url) => {
           setLogo(url);
         });
-  },[])
+  })
 
   const signIn = (e) => {
     e.preventDefault();

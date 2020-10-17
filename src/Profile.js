@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "./StateProvider";
 import Jumbotron from "react-bootstrap/Jumbotron";
-import { Avatar} from "@material-ui/core";
+import { Avatar, FormControlLabel, FormGroup } from "@material-ui/core";
 import "./Profile.css";
 import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
 import HomeWorkRoundedIcon from "@material-ui/icons/HomeWorkRounded";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import EmailRoundedIcon from "@material-ui/icons/EmailRounded";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, FormControl, Modal } from "react-bootstrap";
 import { auth, db, storage } from "./firebase";
+import { CloseOutlined } from "@material-ui/icons";
 
 function Profile() {
-  const [{ user }] = useStateValue();
+  const [{ Cart, Wishlist, user }, dispach] = useStateValue();
   const [name, setName] = useState();
   const [number, setNumber] = useState();
   const [email, setEmail] = useState();
@@ -20,7 +21,8 @@ function Profile() {
   const [password, setPassword] = useState();
   const [showChange, setShowChange] = useState(false);
   const [anyChange, setAnyChange] = useState(false);
-  const [showModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [Img, setImg] = useState();
   const [url, setUrl] = useState();
 
   const handleImg = async (e) => {
