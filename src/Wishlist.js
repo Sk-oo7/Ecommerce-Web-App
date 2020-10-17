@@ -6,8 +6,8 @@ import EmptyWishlist from "./EmptyWishlist";
 import { db } from "./firebase";
 
 function Wishlist() {
-  const [{ user, Wishlist }, dispatch] = useStateValue();
-  const [guest, setGuest] = useStateValue();
+  const [{ user }] = useStateValue();
+  const [guest] = useStateValue();
   const [list, setList] = useState([]);
 
   useEffect(() => {

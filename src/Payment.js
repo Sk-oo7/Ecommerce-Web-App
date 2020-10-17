@@ -10,7 +10,7 @@ import axios from "./axios";
 import { db } from "./firebase";
 
 function Payment() {
-  const [{ Cart, user, Wishlist }, dispach] = useStateValue();
+  const [{ user }] = useStateValue();
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
@@ -22,13 +22,10 @@ function Payment() {
   const [clientSecret, setClientSecret] = useState(true);
   const [cart, setcart] = useState([]);
   const [total, setTotal] = useState(0);
-  const [guest, setGuest] = useStateValue();
+  const [guest] = useStateValue();
   const [number, setNumber] = useState();
   const [address, setAddress] = useState();
 
-  const getCartTotal = () => {
-    return total;
-  };
 
   useEffect(() => {
     if (user) {
@@ -142,7 +139,7 @@ function Payment() {
             });
         }
         {cart.map((item)=>{
-          if(item?.data.seller != ""){
+          if(item?.data.seller !== ""){
             db.collection("sellers").doc(item?.data.seller).collection("notifications").add({
               msg: `You got a new Order for ${item.data.title}`,
               variant: "primary",
@@ -180,7 +177,7 @@ function Payment() {
             );
         }
         {cart.map((item)=>{
-          if(item?.data.seller != ""){
+          if(item?.data.seller !== ""){
              db.collection("sellers").doc(item?.data.seller).collection("balance").add({
               amount:  parseInt(item?.data.price),
               created: paymentIntent.created,
@@ -189,7 +186,7 @@ function Payment() {
           }
         })}
         {cart.map((item)=>{
-          if(item?.data.seller != ""){
+          if(item?.data.seller !== ""){
              db.collection("sellers").doc(item?.data.seller).collection("orders").add({
               data:item?.data,
               user:user.uid,

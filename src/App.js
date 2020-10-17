@@ -24,8 +24,8 @@ const promise = loadStripe(
 );
 
 function App() {
-  const [{ search }, dispach] = useStateValue();
-  const [guest, setGuest] = useStateValue();
+  const [{ }, dispach] = useStateValue();
+  const [setGuest] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {

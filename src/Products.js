@@ -6,7 +6,6 @@ import { useStateValue } from "./StateProvider.js";
 
 export default function Products() {
   const [products,setProducts]=useState([]);
-  const [{ user }] = useStateValue();
 
   useEffect(()=>{
     

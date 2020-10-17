@@ -1,6 +1,6 @@
 import { Avatar } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Form, FormControl, InputGroup, Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import { auth, storage } from "../firebase";
@@ -17,7 +17,7 @@ function Header() {
         .then((url) => {
           setLogo(url);
         });
-  })
+  },[])
 
   useEffect(() => {
     if (user) {

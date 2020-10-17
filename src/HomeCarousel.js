@@ -34,7 +34,7 @@ export default function HomeCarousel() {
         .then((url) => {
           setPic4(url);
         });
-  })
+  },[])
   return (
     <Carousel controls={false} indicators={false} interval={2000} pause={false}>
       <Carousel.Item>

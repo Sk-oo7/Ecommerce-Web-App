@@ -28,7 +28,6 @@ export default function NewProductCarousel() {
         )
       );
 },[])
-console.log(products?.length)
   const responsive = {
     desktop: {
       breakpoint: { max: 4000, min: 1024 },

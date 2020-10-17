@@ -3,16 +3,15 @@ import "./SubTotal.css";
 import CurrencyFormat from "react-currency-format";
 import Button from "react-bootstrap/Button";
 import { useStateValue } from "./StateProvider";
-import { getCartTotal } from "./reducer";
 import { useHistory } from "react-router-dom";
 import { db } from "./firebase";
 import { Modal } from "react-bootstrap";
 
 function SubTotal({ Len }) {
   const history = useHistory();
-  const [{ Cart, user }, dispach] = useStateValue();
+  const [{ user }] = useStateValue();
   const [total, setTotal] = useState(0);
-  const [guest, setGuest] = useStateValue();
+  const [guest] = useStateValue();
   const [signInModal, showSignInModal] = useState(false);
 
   let sum = 0;
