@@ -160,14 +160,13 @@ function Payment() {
         setError(null);
         setProcessing(false);
 
-        if (user) {
+        if (user?.uid) {
            db.collection("users")
             .doc(user?.uid)
             .collection("Cart")
-            .onSnapshot((snapshot) =>
-              snapshot.docs.map((doc) => {
-                doc.ref.delete();
-              })
+            .onSnapshot((snapshot) => snapshot.docs.map((doc) => {
+             doc.ref.delete();
+            })
             );
         } else if (guest?.guest) {
            db.collection("guests")
@@ -200,10 +199,10 @@ function Payment() {
         })}
 
         
-      //  setTimeout(() => {
+       setTimeout(() => {
         history.replace("/orders");
         window.location.reload(false);
-      // }, 3000);
+      }, 3000);
       });
   };
   const handleChange = (event) => {

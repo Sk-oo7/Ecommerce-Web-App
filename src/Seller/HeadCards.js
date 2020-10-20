@@ -3,6 +3,7 @@ import { Card, Carousel } from 'react-bootstrap'
 import CurrencyFormat from 'react-currency-format';
 
 function HeadCards({totalSum,nProducts,nOrders,growth}) {
+
     const[total,setTotal]=useState(0);
     const[products,setProducts]=useState(0);
     const[orders,setOrders]=useState(0);
@@ -12,7 +13,7 @@ function HeadCards({totalSum,nProducts,nOrders,growth}) {
        setOrders(nOrders);
        setProducts(nProducts);
        setTotal(totalSum);
-       setGrowth(growth)
+       setGrowth(growth.toFixed(2))
     },[totalSum,nProducts,nOrders,growth])
 
     const responsive = {

@@ -14,10 +14,10 @@ import { CloseOutlined } from "@material-ui/icons";
 
 function Profile() {
   const [{ Cart, Wishlist, user }, dispach] = useStateValue();
-  const [name, setName] = useState();
-  const [number, setNumber] = useState();
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
   const [email, setEmail] = useState();
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState("");
   const [password, setPassword] = useState();
   const [showChange, setShowChange] = useState(false);
   const [anyChange, setAnyChange] = useState(false);

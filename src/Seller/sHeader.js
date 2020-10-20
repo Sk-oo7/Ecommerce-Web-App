@@ -45,22 +45,6 @@ function Header() {
           <img src={Logo} height="50"></img>
         </Link>
       </Navbar.Brand>
-      {/* <Form inline className="ml-auto search_inp">
-        <InputGroup className="formInput search_inp" style={{ width: "600px" }}>
-          <InputGroup.Prepend>
-            <InputGroup.Text>
-              <SearchIcon />
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            type="text"
-            placeholder="Search"
-            className="col-xs-4 search_inp"
-            value={search.search}
-            // onChange={handleSearchValue}
-          />
-        </InputGroup>
-      </Form> */}
       <Nav className="ml-sm-4" style={{ paddingLeft: "55vw" }}>
         <Nav.Link>
           <Link to="/seller/Catalogue" className="link">
@@ -155,11 +139,7 @@ function Header() {
                     color: "whitesmoke",
                   }}
                 >
-                  {user
-                    ? `${user?.displayName}`.toUpperCase()
-                    : `${
-                        user?.email ? `${user?.email}`.toUpperCase() : "Seller"
-                      }`}
+                  {user.displayName? `${user?.displayName}`.toUpperCase(): `${user?.email ? `${user?.email}`.toUpperCase() : "Seller"}`}
                 </strong>
               </div>
               <div className="dropdown-content">

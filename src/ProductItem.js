@@ -162,7 +162,7 @@ export default function ProductItem({ id, title, price, rating,category,seller }
             </div>
             <div
               className="product_details"
-              style={{ margin: "20px 20px 20px 20px" }}
+              style={{ margin: "-20px 20px 20px 20px" }}
             >
               <div className="ProductItem_title">{title}</div>
               <div className="ProductItem_price">

@@ -190,11 +190,7 @@ export default function Header() {
                     color: "whitesmoke",
                   }}
                 >
-                  {user
-                    ? `${user?.displayName}`.toUpperCase()
-                    : `${
-                        user?.email ? `${user?.email}`.toUpperCase() : "Guest"
-                      }`}
+                  {user.displayName? `${user?.displayName}`.toUpperCase(): `${user?.email ? `${user?.email}`.toUpperCase() : "Guest"}`}
                 </strong>
               </div>
               <div className="dropdown-content">
