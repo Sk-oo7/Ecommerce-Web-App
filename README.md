@@ -1,4 +1,6 @@
-This is a Full-Stack Ecommerce application based on React.js, Express.js and Firebase
+This is a Full-Stack Ecommerce application based on React.js, Express.js and Firebase.
+User-End as well as Seller-End both are put into action which give an extra edge to this project.
+Stripe Payment is implemented for online payment purpose.
 
 To run this application locally you need to install node.
 
