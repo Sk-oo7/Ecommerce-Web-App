@@ -10,7 +10,7 @@ To run this application locally you need to install node.
 
 ### `npm start`
 
-use this command to compile code compile code and run it on http://localhost:3000/
+use this command to compile code and run it on http://localhost:3000/
 
 ### `~firebase emulators:start`
 
